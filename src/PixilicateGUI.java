@@ -11,11 +11,12 @@ public class PixilicateGUI extends JFrame {
     public PixilicateGUI(){
         //call the super class helper methods
         //to customize the view
+        //customizing the JFrame
         super.setTitle("Pixilicate");
         super.setSize(screenWidth,screenHeight);
-        //we will practice using the layout managers
-        //which will govern how widgets are placed on the screen
         super.setLayout(new BorderLayout());
+        super.setBackground(Color.BLACK);
+        super.setResizable(false);
         //add widgets
         /*
         1) create a JPanel (section GUI into parts
@@ -30,17 +31,24 @@ public class PixilicateGUI extends JFrame {
         bottomPanel.add(new JLabel("Coded by: Noelle Dang"));
         super.add(bottomPanel,BorderLayout.SOUTH);
 
+        JPanel rightPanel = new JPanel();
+        rightPanel.add(new JLabel("Color Options: "));
+        super.add(rightPanel, BorderLayout.EAST );
+
+        JPanel scoreBoard = new JPanel();
+        scoreBoard.add(new JLabel("Time you have Left: "));
+        super.add(scoreBoard,BorderLayout.WEST);
+
         //adding a widget with interaction too
         JPanel centerPanel = new JPanel();
 
         //example of gridlayour
-        centerPanel.setLayout(new GridLayout(25,25));
+        centerPanel.setLayout(new GridLayout(11,11));
         //create a total of 64 buttons to add to hte panel
-        for(int i = 0; i < 25; i++){
-            for(int j = 0; j < 25; j++){
+        for(int i = 0; i < 11; i++){
+            for(int j = 0; j < 11; j++){
                 JButton button = new JButton("");
                 centerPanel.add(button);
-
                 //connects button to a listener to listen for click events
                 button.addActionListener( new ButtonListener(button) );
             }
