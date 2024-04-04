@@ -34,10 +34,10 @@ public class PixilicateGUI extends JFrame {
         JPanel centerPanel = new JPanel();
 
         //example of gridlayour
-        centerPanel.setLayout(new GridLayout(8,8));
+        centerPanel.setLayout(new GridLayout(25,25));
         //create a total of 64 buttons to add to hte panel
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
+        for(int i = 0; i < 25; i++){
+            for(int j = 0; j < 25; j++){
                 JButton button = new JButton("");
                 centerPanel.add(button);
 
