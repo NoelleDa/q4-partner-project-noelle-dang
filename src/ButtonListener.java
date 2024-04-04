@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ButtonListener implements ActionListener {
+    private String[][] pressedGrid = new String[11][11];
 
     //the button for this listener
     JButton theButton;
@@ -16,9 +17,14 @@ public class ButtonListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+
+        theButton.setBackground(new Color(0,255,0));
         theButton.setText("X");
         theButton.setEnabled(false);
-        theButton.setBackground(new Color(0,255,0));
+        System.out.println(e.getActionCommand());
+
 
     }
+
+
 }
