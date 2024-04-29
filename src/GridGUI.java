@@ -16,7 +16,6 @@ public class GridGUI extends JFrame {
         f.setResizable(false);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setVisible(true);
-
         //end of Frame settings
     }
 

@@ -55,9 +55,9 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         setBackground(g);
         updatePointer();
         grid.paint(g);
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("IMPACT",Font.PLAIN,40));
-        g.drawString("Score: "+score, 65, 55);
+//        g.setColor(Color.WHITE);
+//        g.setFont(new Font("IMPACT",Font.PLAIN,40));
+//        g.drawString("Score: "+score, 65, 55);
 
 
         clearSwapPos();
@@ -111,7 +111,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     private void setBackground(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         tx = AffineTransform.getTranslateInstance(0, 0);
-        Sprite = getImage("Sprites//Background.png");
+        Sprite = getImage("Colors//Background.png");
         g2.drawImage(Sprite, tx, null);
     }
 
@@ -214,10 +214,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         mouseDown = false;
         tempClickPosition = null;
 
-        swappingPositions[0] = passthrough[1];
-        swappingPositions[1] = passthrough[2];
-        swappingPositions[2] = getGridLocation(grid)[1];
-        swappingPositions[3] = getGridLocation(grid)[2];
 
 
     }
@@ -235,7 +231,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     }
 
     protected Image getImage(String path) {
-
         Image tempImage = null;
         try {
             URL imageURL = Runner.class.getResource(path);

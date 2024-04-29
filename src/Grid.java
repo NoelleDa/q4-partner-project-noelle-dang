@@ -14,6 +14,15 @@ public class Grid {
     public Grid(){
         grid = new Pixel[gridRows][gridCols];
         gridReset();
+        fillGrid();
+    }
+
+    public void fillGrid(){
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[i].length; j++){
+                grid[i][j] = new Pixel("White");
+            }
+        }
     }
 
     public int getLength(){
