@@ -55,14 +55,8 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         setBackground(g);
         updatePointer();
         grid.paint(g);
-//        g.setColor(Color.WHITE);
-//        g.setFont(new Font("IMPACT",Font.PLAIN,40));
-//        g.drawString("Score: "+score, 65, 55);
-
-
         clearSwapPos();
         paintGridContents(g);
-
         clickFunctionUpdate(g);
     }
 

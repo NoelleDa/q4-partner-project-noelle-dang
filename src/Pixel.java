@@ -6,6 +6,7 @@ import java.util.Hashtable;
 public class Pixel {
 
     //instance variables
+    private int clicks;
     private String color;
     private AffineTransform tx;
     private Image Color;
@@ -44,6 +45,9 @@ public class Pixel {
     public String getColor(){
         return this.color;
     }
+    public void setClicks(int amount){
+        this.clicks = amount;
+    }
     private int[] translateGridPosition(int[] a, Grid g){
         int[] output = {(a[1]*g.squareSize+g.xOffset),a[2]*g.squareSize+g.yOffset};
         return output;
@@ -60,7 +64,6 @@ public class Pixel {
         tx = AffineTransform.getTranslateInstance(transform[0],transform[1]);
         Color = getImage(colors.get(color));
         g2.drawImage(Color,tx,null);
-
     }
     public String toString(){
         return color;
