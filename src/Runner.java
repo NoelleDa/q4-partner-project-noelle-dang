@@ -37,17 +37,13 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     boolean initialize = true;
     private AffineTransform tx;
     private Image Sprite;
-
-
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         Runner f = new Runner();
     }
-
     public void setActiveAnimation(String s) {
         activeAnimation = s;
     }
-
     public void paint(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
@@ -59,14 +55,12 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         paintGridContents(g);
         clickFunctionUpdate(g);
     }
-
     public void tickRate() {
         if (frameDelay > 0) {frameDelay-=1;}
         if (!(grid.animationOverride.equals(""))) {
             activeAnimation = grid.animationOverride;
         }
     }
-
     private void paintGridContents(Graphics g) {
         for (int r = 0; r < grid.getLength();r++) {
             for (int c = 0; c < grid.getHeight(); c++) {
@@ -76,7 +70,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             }
         }
     }
-
     private void clickFunctionUpdate(Graphics g) {
         if (getGridLocation(grid)[0] == 1) {
             if (!mouseDown)
@@ -94,46 +87,35 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             drawPointer(temp, grid, g);
         }
     }
-
     private void clearSwapPos() {
         swappingPositions[0] = -1;
         swappingPositions[1] = -1;
         swappingPositions[2] = -1;
         swappingPositions[3] = -1;
     }
-
     private void setBackground(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         tx = AffineTransform.getTranslateInstance(0, 0);
-        Sprite = getImage("Colors//Background.png");
+        Sprite = getImage("Colors//LightBlue.png");
         g2.drawImage(Sprite, tx, null);
     }
-
     @Override
     public void actionPerformed(ActionEvent arg0) {
         // TODO Auto-generated method stub
         repaint();
-
     }
-
     @Override
     public void keyPressed(KeyEvent arg0) {
         // TODO Auto-generated method stub
     }
-
     @Override
     public void keyReleased(KeyEvent arg0) {
         // TODO Auto-generated method stub
     }
-
     @Override
     public void keyTyped(KeyEvent arg0) {
         // TODO Auto-generated method stub
-
-
-
     }
-
     private void updatePointer()
     {
         PointerInfo p = MouseInfo.getPointerInfo();
@@ -142,7 +124,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         point.setLocation(point.getX()-8,point.getY()-31);
         mousePosition.setLocation(point.getLocation());
     }
-
     private int[] getGridLocation(Grid g)
     {
         int[] output = new int[3]; //[0] = on grid; [1] = xpos; [2] = ypos
@@ -163,15 +144,12 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         output[0] = 0;
         return output;
     }
-
     private int[] translateGridPosition(int[] a,Grid g)
     {
         int[] output = {(a[1]*g.squareSize+g.xOffset),a[2]*g.squareSize+g.yOffset};
         return output;
     }
-
     Timer t;
-
     public Runner() {
         JFrame f = new JFrame("PixelMatch");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -180,21 +158,14 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         f.addMouseListener(this);
         f.addKeyListener(this);
         f.setResizable(false);
-
         t = new Timer(16, this);
         t.start();
         f.setVisible(true);
     }
-
     @Override
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
-
     }
-
-
-
-
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
@@ -212,25 +183,17 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             }
         }
     }
-
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-        mouseDown = false;
-        tempClickPosition = null;
     }
-
     @Override
     public void mouseEntered(MouseEvent e) {
         // TODO Auto-generated method stub
     }
-
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
-
     }
-
     protected Image getImage(String path) {
         Image tempImage = null;
         try {
@@ -239,7 +202,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         } catch (Exception e) {e.printStackTrace();}
         return tempImage;
     }
-
     private void drawPointer(int[] gridPosition, Grid grid, Graphics g) {
         g.fillRect(translateGridPosition(gridPosition,grid)[0]+2,
                 translateGridPosition(gridPosition,grid)[1]+2,20,6);
