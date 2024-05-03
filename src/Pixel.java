@@ -11,7 +11,23 @@ public class Pixel {
     private AffineTransform tx;
     private Image Color;
     private int x,y;
+    private int rX, rY;
+    private int squareSize = 65;
     public Hashtable<String, String> colors;
+
+    /*
+    White - 0 click
+    Black - 1 click
+    Blue - 2 click
+    Brown - 3 click
+    Green - 4 click
+    Orange - 5 click
+    Pink - 6 click
+    Purple - 7 click
+    Red - 8 click
+    White - 9 click
+    Yellow - 10 click
+     */
 
     //constructors
     public Pixel(String color){
@@ -46,8 +62,48 @@ public class Pixel {
     public String getColor(){
         return this.color;
     }
+    public int getClicks(){
+        return this.clicks;
+    }
     public void setClicks(int amount){
-        this.clicks = amount;
+        this.clicks += amount;
+        if(this.clicks == 1){
+            this.color = "Black";
+        }
+        if(this.clicks == 2){
+            this.color = "Blue";
+        }
+        if(this.clicks == 3){
+            this.color = "Brown";
+        }
+        if(this.clicks == 4){
+            this.color = "Green";
+        }
+        if(this.clicks == 5){
+            this.color = "Orange";
+        }
+        if(this.clicks == 6){
+            this.color = "Pink";
+        }
+        if(this.clicks == 7){
+            this.color = "Purple";
+        }
+        if(this.clicks == 8){
+            this.color = "Red";
+        }
+        if(this.clicks == 9){
+            this.color = "Yellow";
+        }
+        if(this.clicks == 0 || this.clicks == 10 || this.clicks >= 10){
+            this.color = "White";
+            this.clicks = 0;
+        }
+    }
+    public int getrX(){
+        return rX;
+    }
+    public int getrY(){
+        return rY;
     }
     public int getX(){
         return this.x;
@@ -57,9 +113,11 @@ public class Pixel {
     }
     public void setX(int newX){
         this.x = newX;
+        this.rX = newX + squareSize;
     }
     public void setY(int newY){
         this.y = newY;
+        this.rY = newY + squareSize;
     }
     private int[] translateGridPosition(int[] a, Grid g){
         int[] output = {(a[1]*g.squareSize+g.xOffset),a[2]*g.squareSize+g.yOffset};
@@ -71,7 +129,6 @@ public class Pixel {
 
     public void paint (Graphics g, Grid grid, int x, int y){
         Graphics2D g2 = (Graphics2D) g;
-
         int[] passthrough = {1,x,y};
         int[] transform = translateGridPosition(passthrough,grid);
         tx = AffineTransform.getTranslateInstance(transform[0],transform[1]);
@@ -82,10 +139,6 @@ public class Pixel {
         return color;
     }
 
-    public void setPixel(){
-
-
-    }
 
 
 

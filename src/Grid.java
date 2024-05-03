@@ -24,9 +24,9 @@ public class Grid {
     private int gridRows = 10;
     public int xOffset = 65;
     public int yOffset = 80;
-    public int squareSize = 65;
+    protected int squareSize = 65;
     private int xGridSquare = 65;
-    private int yGridSquare = 80;
+    private int yGridSquare = 100;
     public String animationOverride = "";
     //constructor
     public Grid(){
@@ -35,25 +35,24 @@ public class Grid {
         fillGrid();
         fillMatchGrid();
     }
+
+    // randomColor( (int) (Math.random()*9)
     public void fillGrid(){
         for(int i = 0; i < grid.length; i++){
             for(int j = 0; j < grid[i].length; j++){
-                grid[i][j] = new Pixel(randomColor( (int) (Math.random()*9) ));
+                grid[i][j] = new Pixel( "White");
                 matchGrid[i][j] = new Pixel(randomColor( (int) (Math.random()*9) ));
                 grid[i][j].setClicks(0);
                 grid[i][j].setX(xGridSquare);
                 grid[i][j].setY(yGridSquare);
                 xGridSquare += squareSize;
-                if(xGridSquare == (gridCols * squareSize) + 65) {
-                    yGridSquare += 65;
-                    xGridSquare = 65;
+                if(xGridSquare == (gridCols * squareSize) + squareSize) {
+                    yGridSquare += squareSize;
+                    xGridSquare = squareSize;
                 }
-                System.out.println("X position: " + grid[i][j].getX() + " Y position: " + grid[i][j].getY());
             }
         }
     }
-
-
     public void fillMatchGrid(){
         for(int i = 0; i < matchGrid.length; i++){
             for(int j = 0; j < matchGrid[i].length; j++){
@@ -115,6 +114,8 @@ public class Grid {
                 yOffset+(squareSize)*getHeight());
         g.drawLine(xOffset, yOffset+(squareSize)*getHeight(),xOffset+(squareSize)*getLength(),
                 yOffset+(squareSize)*getHeight());
+
+
     }
     //methods
     public int getGridCols(){
@@ -128,7 +129,7 @@ public class Grid {
     }
 
     public void setPixelClicks(int row, int col, int n){
-        grid[row][col].setClicks(n);
+        grid[row][col].setClicks(1);
     }
     public String randomColor(int num){
         if(num == 0){
@@ -153,6 +154,9 @@ public class Grid {
             return "Yellow";
         }
     }
+    public Pixel getValue(int row, int col){
+        return grid[row][col];
+    }
     private int checkResults(Pixel[][] gridA, Pixel[][] gridB){
         Pixel[][] a = gridA;
         Pixel[][] b = gridB;
@@ -168,13 +172,17 @@ public class Grid {
     private void resetScore(){
         score = 0;
     }
-
     private String checkWinLose(int score){
         if(score >= 65){
             return "!! You Pass!!";
         }else{
             return "!? You FAIL!!";
         }
+    }
+    public void setPixel(int row, int col,String newColor, int clicks){
+        grid[row][col] = new Pixel(newColor);
+        grid[row][col].setClicks(clicks);
+
     }
 
 } // end of class

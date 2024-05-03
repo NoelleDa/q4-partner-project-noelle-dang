@@ -189,8 +189,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     @Override
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
-        System.out.println("X position: " + e.getX() + " Y position: " + e.getY());
-
 
     }
 
@@ -200,8 +198,19 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-        mouseDown = true;
-        tempClickPosition = mousePosition;
+        for(int row = 0; row < grid.getGridRows(); row ++ ){
+            for(int col = 0; col < grid.getGridCols(); col ++){
+                Pixel temp = grid.getPixel(row,col);
+                int pixelX = temp.getX();
+                int pixelY = temp.getY();
+                int pixelRX = temp.getrX();
+                int pixelRY = temp.getrY();
+                if((e.getY() >= pixelY && e.getY() <= pixelRY) && (e.getX() >= pixelX && e.getX() <= pixelRX) ){
+                    grid.setPixelClicks(row,col,1);
+                    System.out.println(grid.getPixel(row,col).getClicks());
+                }
+            }
+        }
     }
 
     @Override
@@ -209,15 +218,11 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         // TODO Auto-generated method stub
         mouseDown = false;
         tempClickPosition = null;
-
-
-
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
