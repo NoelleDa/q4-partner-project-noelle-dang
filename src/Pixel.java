@@ -10,6 +10,7 @@ public class Pixel {
     private String color;
     private AffineTransform tx;
     private Image Color;
+    private int x,y;
     public Hashtable<String, String> colors;
 
     //constructors
@@ -47,6 +48,18 @@ public class Pixel {
     }
     public void setClicks(int amount){
         this.clicks = amount;
+    }
+    public int getX(){
+        return this.x;
+    }
+    public int getY(){
+        return this.y;
+    }
+    public void setX(int newX){
+        this.x = newX;
+    }
+    public void setY(int newY){
+        this.y = newY;
     }
     private int[] translateGridPosition(int[] a, Grid g){
         int[] output = {(a[1]*g.squareSize+g.xOffset),a[2]*g.squareSize+g.yOffset};

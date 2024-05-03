@@ -189,6 +189,8 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     @Override
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
+        System.out.println("X position: " + e.getX() + " Y position: " + e.getY());
+
 
     }
 

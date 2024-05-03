@@ -7,20 +7,16 @@ public class Grid {
     private long time = 300;
     private long nextLevelTimer = 0;
     private long nextLevelTime = 3;
-
     //scoring variables
     private int score = 0;
     private int level = 0;
     private boolean levelIncrease = false;
     private int prevLevel = level - 1;
-
     //showScreen booleans
     private boolean showCopyScreen = false;
     private boolean showMatchScreen = false;
     private boolean showScoreScreen = false;
     private boolean showTimerScreen = true;
-
-
     //graphics variables
     private Pixel[][] grid;
     private Pixel[][] matchGrid;
@@ -29,6 +25,8 @@ public class Grid {
     public int xOffset = 65;
     public int yOffset = 80;
     public int squareSize = 65;
+    private int xGridSquare = 65;
+    private int yGridSquare = 80;
     public String animationOverride = "";
     //constructor
     public Grid(){
@@ -37,16 +35,24 @@ public class Grid {
         fillGrid();
         fillMatchGrid();
     }
-
     public void fillGrid(){
         for(int i = 0; i < grid.length; i++){
             for(int j = 0; j < grid[i].length; j++){
                 grid[i][j] = new Pixel(randomColor( (int) (Math.random()*9) ));
                 matchGrid[i][j] = new Pixel(randomColor( (int) (Math.random()*9) ));
                 grid[i][j].setClicks(0);
+                grid[i][j].setX(xGridSquare);
+                grid[i][j].setY(yGridSquare);
+                xGridSquare += squareSize;
+                if(xGridSquare == (gridCols * squareSize) + 65) {
+                    yGridSquare += 65;
+                    xGridSquare = 65;
+                }
+                System.out.println("X position: " + grid[i][j].getX() + " Y position: " + grid[i][j].getY());
             }
         }
     }
+
 
     public void fillMatchGrid(){
         for(int i = 0; i < matchGrid.length; i++){
@@ -77,22 +83,15 @@ public class Grid {
         if(time == 0){
             showTimerScreen = false;
             showScoreScreen = true;
-//            time = 5;
-//            timer += 20;
-//            if(timer % 1000 == 0){
-//                time --;
-//            }
         }
-
         if(showScoreScreen){
             g.setColor(Color.white);
             g.setFont(new Font("IMPACT", Font.PLAIN, 50));
             g.drawString("Your Score is:" + score, 50,65);
             g.drawString(checkWinLose(score),450,65);
         }
-
     }
-
+    //display time
     private long displayMinutes(long time){
         long amt = this.time / 60;
         return amt;
@@ -102,8 +101,7 @@ public class Grid {
         long seconds = this.time - (amt * 60);
         return seconds;
     }
-
-
+    //drawing the lines for the grid
     private void paintGridOutline(Graphics g) {
         for (int a = 0; a < getLength();a++)
         {
@@ -119,17 +117,18 @@ public class Grid {
                 yOffset+(squareSize)*getHeight());
     }
     //methods
-
-    //adding
-
     public int getGridCols(){
         return  gridCols;
     }
     public int getGridRows(){
         return gridRows;
     }
-    public Pixel getValue(int row, int col){
+    public Pixel getPixel(int row, int col){
         return grid[row][col];
+    }
+
+    public void setPixelClicks(int row, int col, int n){
+        grid[row][col].setClicks(n);
     }
     public String randomColor(int num){
         if(num == 0){
@@ -154,7 +153,6 @@ public class Grid {
             return "Yellow";
         }
     }
-
     private int checkResults(Pixel[][] gridA, Pixel[][] gridB){
         Pixel[][] a = gridA;
         Pixel[][] b = gridB;
@@ -178,7 +176,5 @@ public class Grid {
             return "!? You FAIL!!";
         }
     }
-
-
 
 } // end of class
