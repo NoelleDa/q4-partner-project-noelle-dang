@@ -30,13 +30,25 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     boolean mouseDown;
     Point tempClickPosition;
     int[] passthrough = new int[3];
-    int[] swappingPositions = new int[4];
     int score = 0;
     int frameDelay = 0;
     String activeAnimation = "none";
     boolean initialize = true;
     private AffineTransform tx;
     private Image Sprite;
+    //timer variables
+
+    private long timer = 0; // animation timer - time based on the animation speed
+    private long time = 3;
+    private long nextLevelTimer = 0;
+    private long nextLevelTime = 3;
+    //show image variables
+    private boolean showLoadingScreen = true;
+    private boolean showStartScreen = false;
+    private boolean startGame = false;
+    private boolean showInstructionsScreen = false;
+    private int clickStart = 0;
+
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         Runner f = new Runner();
@@ -48,11 +60,45 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         tickRate();
-        setBackground(g);
-        updatePointer();
-        grid.paint(g);
-        clearSwapPos();
-        paintGridContents(g);
+        setScreen(g,"Background.png");
+        if(showLoadingScreen){
+            setScreen(g,"LoadingScreen.gif");
+            timer += 20;
+            if(timer % 1000 == 0){
+                time--;
+            }
+            if(time == 0){
+                showLoadingScreen = false;
+                showStartScreen = true;
+
+            }
+        }
+       if(startGame){
+           updatePointer();
+           grid.paint(g);
+           paintGridContents(g);
+       }
+       if(showStartScreen){
+          setScreen(g,"EnterToStart.gif");
+          if(clickStart >= 1){
+              showStartScreen = false;
+              //startGame = true;
+              showInstructionsScreen = true;
+              time = 3;
+
+          }
+       }
+       if(showInstructionsScreen){
+           setScreen(g,"InstructionsScreen.gif");
+           timer += 20;
+           if(time % 1000 == 0){
+               time --;
+           }
+           if(time == 0){
+               showInstructionsScreen = false;
+               startGame = true;
+           }
+       }
         clickFunctionUpdate(g);
     }
     public void tickRate() {
@@ -87,17 +133,11 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             drawPointer(temp, grid, g);
         }
     }
-    private void clearSwapPos() {
-        swappingPositions[0] = -1;
-        swappingPositions[1] = -1;
-        swappingPositions[2] = -1;
-        swappingPositions[3] = -1;
-    }
-    private void setBackground(Graphics g) {
+    private void setScreen(Graphics g, String fileName){
         Graphics2D g2 = (Graphics2D) g;
-        tx = AffineTransform.getTranslateInstance(0, 0);
-        Sprite = getImage("Colors//LightBlue.png");
-        g2.drawImage(Sprite, tx, null);
+        tx = AffineTransform.getTranslateInstance(0,0);
+        Sprite = getImage("Colors//"+ fileName);
+        g2.drawImage(Sprite,tx,null);
     }
     @Override
     public void actionPerformed(ActionEvent arg0) {
@@ -107,6 +147,9 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     @Override
     public void keyPressed(KeyEvent arg0) {
         // TODO Auto-generated method stub
+        if(arg0.getKeyCode() == 10){
+            clickStart ++;
+        }
     }
     @Override
     public void keyReleased(KeyEvent arg0) {
@@ -183,6 +226,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             }
         }
     }
+
     @Override
     public void mouseReleased(MouseEvent e) {
     }

@@ -4,7 +4,7 @@ public class Grid {
     //instance variables
     //timer variables
     private long timer = 0; // animation timer - time based on the animation speed
-    private long time = 10;
+    private long time = 180;
     private long nextLevelTimer = 0;
     private long nextLevelTime = 3;
     //scoring variables

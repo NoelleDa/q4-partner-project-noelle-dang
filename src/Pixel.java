@@ -68,31 +68,31 @@ public class Pixel {
     public void setClicks(int amount){
         this.clicks += amount;
         if(this.clicks == 1){
-            this.color = "Black";
+            this.color = "Red";
         }
         if(this.clicks == 2){
-            this.color = "Blue";
+            this.color = "Orange";
         }
         if(this.clicks == 3){
-            this.color = "Brown";
+            this.color = "Yellow";
         }
         if(this.clicks == 4){
             this.color = "Green";
         }
         if(this.clicks == 5){
-            this.color = "Orange";
+            this.color = "Blue";
         }
         if(this.clicks == 6){
-            this.color = "Pink";
-        }
-        if(this.clicks == 7){
             this.color = "Purple";
         }
+        if(this.clicks == 7){
+            this.color = "Pink";
+        }
         if(this.clicks == 8){
-            this.color = "Red";
+            this.color = "Black";
         }
         if(this.clicks == 9){
-            this.color = "Yellow";
+            this.color = "Brown";
         }
         if(this.clicks == 0 || this.clicks == 10 || this.clicks >= 10){
             this.color = "White";
