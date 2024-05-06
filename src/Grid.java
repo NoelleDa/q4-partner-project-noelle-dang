@@ -36,11 +36,12 @@ public class Grid {
         fillMatchGrid();
     }
 
-    // randomColor( (int) (Math.random()*9)
+
+
     public void fillGrid(){
         for(int i = 0; i < grid.length; i++){
             for(int j = 0; j < grid[i].length; j++){
-                grid[i][j] = new Pixel( "White");
+                grid[i][j] = new Pixel( "Black" ) ;
                 matchGrid[i][j] = new Pixel(randomColor( (int) (Math.random()*9) ));
                 grid[i][j].setClicks(0);
                 grid[i][j].setX(xGridSquare);
@@ -53,6 +54,22 @@ public class Grid {
             }
         }
     }
+//    public void fillBlankGrid(){
+//        for(int i = 0; i < grid.length; i++){
+//            for(int j = 0; j < grid[i].length; j++){
+//                grid[i][j] = new Pixel( "White");
+//                matchGrid[i][j] = new Pixel(randomColor( (int) (Math.random()*9) ));
+//                grid[i][j].setClicks(0);
+//                grid[i][j].setX(xGridSquare);
+//                grid[i][j].setY(yGridSquare);
+//                xGridSquare += squareSize;
+//                if(xGridSquare == (gridCols * squareSize) + squareSize) {
+//                    yGridSquare += squareSize;
+//                    xGridSquare = squareSize;
+//                }
+//            }
+//        }
+//    }
     public void fillMatchGrid(){
         for(int i = 0; i < matchGrid.length; i++){
             for(int j = 0; j < matchGrid[i].length; j++){

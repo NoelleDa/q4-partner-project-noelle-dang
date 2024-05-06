@@ -26,6 +26,7 @@ import javax.swing.Timer;
 
 public class Runner extends JPanel implements KeyListener, ActionListener, MouseListener {
     Grid grid = new Grid();
+    Grid matchGrid = new Grid();
     Point mousePosition = new Point(0,0);
     boolean mouseDown;
     Point tempClickPosition;
@@ -82,17 +83,15 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
           setScreen(g,"EnterToStart.gif");
           if(clickStart >= 1){
               showStartScreen = false;
-              //startGame = true;
+              setTime(12);
               showInstructionsScreen = true;
-              time = 3;
-
           }
        }
        if(showInstructionsScreen){
            setScreen(g,"InstructionsScreen.gif");
            timer += 20;
-           if(time % 1000 == 0){
-               time --;
+           if(timer % 1000 == 0){
+               time--;
            }
            if(time == 0){
                showInstructionsScreen = false;
@@ -100,6 +99,9 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
            }
        }
         clickFunctionUpdate(g);
+    }
+    private void setTime(int n){
+        this.time = n;
     }
     public void tickRate() {
         if (frameDelay > 0) {frameDelay-=1;}
