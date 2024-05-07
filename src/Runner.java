@@ -80,29 +80,34 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             g.drawString("Time: " + displayMinutes(time) + ":" + displaySeconds(time),635,770 );
         }
         if(showScoreScreen){
+            checkScoreResults(matchGrid,grid);
             g.setColor(Color.white);
             g.setFont(new Font("IMPACT", Font.PLAIN, 50));
             g.drawString("Your Score is:" + score, 50,65);
-            g.drawString(grid.checkWinLose(score),450,65);
+            g.drawString(checkWinLose(score),450,65);
         }
        if(startGame){
            updatePointer();
            if(matchScreen){
                grid.paint(g);
                paintGridContents(g,matchGrid);
+               if(time == 0) {
+                   matchScreen = false;
+                   blankScreen = true;
+                   setTime(18);
+               }
            }
            timer += 20;
            if(timer % 1000 == 0){
                time--;
            }
-           if(time == 0){
-               matchScreen = false;
-               blankScreen = true;
-               setTime(180);
-           }
            if(blankScreen){
                grid.paint(g);
                paintGridContents(g,grid);
+               if(time == 0){
+                   showTimerScreen = false;
+                   showScoreScreen = true;
+               }
            }
        }
        if(showInstructionsScreen){
@@ -259,8 +264,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 }
             }
         }
-
-
         if(showLoadingScreen){
             System.out.println(clickStart);
             if(e.getX() >= 80 && e.getX() <= 450 && e.getY() >= 560 && e.getY() <= 720){
@@ -309,5 +312,23 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 translateGridPosition(gridPosition,grid)[1]+58,20,6);
         g.fillRect(translateGridPosition(gridPosition,grid)[0]+58,
                 translateGridPosition(gridPosition,grid)[1]+43,6,20);
+    }
+
+    private void checkScoreResults(Grid matchGrid, Grid editedGrid){
+        for(int i = 0; i <  editedGrid.getGridRows(); i++){
+            for(int j = 0; j < editedGrid.getGridCols(); j++){
+                if(editedGrid.getPixel(i,j) == matchGrid.getPixel(i,j)){
+                    score++;
+                }
+            }
+        }
+    }
+
+    private String checkWinLose(int score){
+        if(score >= 65){
+            return "!! You Pass!!";
+        }else{
+            return "!? You FAIL!!";
+        }
     }
 }

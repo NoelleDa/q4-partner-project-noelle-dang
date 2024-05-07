@@ -135,27 +135,9 @@ public class Grid {
     public Pixel getValue(int row, int col){
         return grid[row][col];
     }
-    private int checkResults(Pixel[][] gridA, Pixel[][] gridB){
-        Pixel[][] a = gridA;
-        Pixel[][] b = gridB;
-        for(int i = 0; i < a.length; i++){
-            for(int j = 0; j < a[i].length; j++){
-                if(a[i][j] == b[i][j]){
-                    score ++;
-                }
-            }
-        }
-        return score;
-    }
+
     private void resetScore(){
         score = 0;
-    }
-    public String checkWinLose(int score){
-        if(score >= 65){
-            return "!! You Pass!!";
-        }else{
-            return "!? You FAIL!!";
-        }
     }
     public void setPixel(int row, int col,String newColor, int clicks){
         grid[row][col] = new Pixel(newColor);
