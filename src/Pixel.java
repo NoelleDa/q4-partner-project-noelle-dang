@@ -86,7 +86,7 @@ public class Pixel {
             this.color = "Purple";
         }
         if(this.clicks == 7){
-            this.color = "Pink";
+            this.color = "White";
         }
         if(this.clicks == 8){
             this.color = "Black";
@@ -95,7 +95,7 @@ public class Pixel {
             this.color = "Brown";
         }
         if(this.clicks == 0 || this.clicks == 10 || this.clicks >= 10){
-            this.color = "White";
+            this.color = "Pink";
             this.clicks = 0;
         }
     }

@@ -25,8 +25,8 @@ import javax.swing.Timer;
 //*********************************
 
 public class Runner extends JPanel implements KeyListener, ActionListener, MouseListener {
-    Grid grid = new Grid();
-    Grid matchGrid = new Grid();
+    Grid grid = new Grid("White");
+    Grid matchGrid = new Grid("random");
     Point mousePosition = new Point(0,0);
     boolean mouseDown;
     Point tempClickPosition;
@@ -41,13 +41,14 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
 
     private long timer = 0; // animation timer - time based on the animation speed
     private long time = 3;
-    private long nextLevelTimer = 0;
-    private long nextLevelTime = 3;
     //show image variables
     private boolean showLoadingScreen = true;
-    private boolean showStartScreen = false;
     private boolean startGame = false;
+    private boolean matchScreen = false;
+    private boolean blankScreen = false;
+    private boolean showScoreScreen = false;
     private boolean showInstructionsScreen = false;
+    private boolean showTimerScreen = false;
     private int clickStart = 0;
 
     public static void main(String[] args) {
@@ -63,29 +64,46 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         tickRate();
         setScreen(g,"Background.png");
         if(showLoadingScreen){
-            setScreen(g,"LoadingScreen.gif");
-            timer += 20;
-            if(timer % 1000 == 0){
-                time--;
-            }
-            if(time == 0){
+            setScreen(g,"StartScreen.gif");
+            if(clickStart > 0){
+                showInstructionsScreen = true;
                 showLoadingScreen = false;
-                showStartScreen = true;
-
+                clickStart = 0;
+                setTime(12);
+                matchScreen = true;
+                showTimerScreen = true;
             }
+        }
+        if(showTimerScreen){
+            g.setFont(new Font("Impact",Font.PLAIN, 35 ));
+            g.setColor(Color.BLACK);
+            g.drawString("Time: " + displayMinutes(time) + ":" + displaySeconds(time),635,770 );
+        }
+        if(showScoreScreen){
+            g.setColor(Color.white);
+            g.setFont(new Font("IMPACT", Font.PLAIN, 50));
+            g.drawString("Your Score is:" + score, 50,65);
+            g.drawString(grid.checkWinLose(score),450,65);
         }
        if(startGame){
            updatePointer();
-           grid.paint(g);
-           paintGridContents(g);
-       }
-       if(showStartScreen){
-          setScreen(g,"EnterToStart.gif");
-          if(clickStart >= 1){
-              showStartScreen = false;
-              setTime(12);
-              showInstructionsScreen = true;
-          }
+           if(matchScreen){
+               grid.paint(g);
+               paintGridContents(g,matchGrid);
+           }
+           timer += 20;
+           if(timer % 1000 == 0){
+               time--;
+           }
+           if(time == 0){
+               matchScreen = false;
+               blankScreen = true;
+               setTime(180);
+           }
+           if(blankScreen){
+               grid.paint(g);
+               paintGridContents(g,grid);
+           }
        }
        if(showInstructionsScreen){
            setScreen(g,"InstructionsScreen.gif");
@@ -96,6 +114,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
            if(time == 0){
                showInstructionsScreen = false;
                startGame = true;
+               setTime(15);
            }
        }
         clickFunctionUpdate(g);
@@ -109,11 +128,11 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             activeAnimation = grid.animationOverride;
         }
     }
-    private void paintGridContents(Graphics g) {
-        for (int r = 0; r < grid.getLength();r++) {
-            for (int c = 0; c < grid.getHeight(); c++) {
-                if (grid.getValue(r,c)!=null) {
-                    grid.getValue(r,c).paint(g, grid, c, r);
+    private void paintGridContents(Graphics g, Grid gridType) {
+        for (int r = 0; r < gridType.getLength();r++) {
+            for (int c = 0; c < gridType.getHeight(); c++) {
+                if (gridType.getValue(r,c)!=null) {
+                    gridType.getValue(r,c).paint(g, gridType, c, r);
                 }
             }
         }
@@ -141,6 +160,18 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         Sprite = getImage("Colors//"+ fileName);
         g2.drawImage(Sprite,tx,null);
     }
+
+    private long displayMinutes(long time){
+        long amt = this.time / 60;
+        return amt;
+    }
+
+    private long displaySeconds(long time){
+        long amt = this.time / 60;
+        long seconds = this.time - (amt * 60);
+        return seconds;
+    }
+
     @Override
     public void actionPerformed(ActionEvent arg0) {
         // TODO Auto-generated method stub
@@ -149,9 +180,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     @Override
     public void keyPressed(KeyEvent arg0) {
         // TODO Auto-generated method stub
-        if(arg0.getKeyCode() == 10){
-            clickStart ++;
-        }
     }
     @Override
     public void keyReleased(KeyEvent arg0) {
@@ -198,7 +226,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     public Runner() {
         JFrame f = new JFrame("PixelMatch");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setSize(800,800);
+        f.setSize(800,825);
         f.add(this);
         f.addMouseListener(this);
         f.addKeyListener(this);
@@ -214,19 +242,32 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-        for(int row = 0; row < grid.getGridRows(); row ++ ){
-            for(int col = 0; col < grid.getGridCols(); col ++){
-                Pixel temp = grid.getPixel(row,col);
-                int pixelX = temp.getX();
-                int pixelY = temp.getY();
-                int pixelRX = temp.getrX();
-                int pixelRY = temp.getrY();
-                if((e.getY() >= pixelY && e.getY() <= pixelRY) && (e.getX() >= pixelX && e.getX() <= pixelRX) ){
-                    grid.setPixelClicks(row,col,1);
-                    System.out.println(grid.getPixel(row,col).getClicks());
+        if(blankScreen){
+            for(int row = 0; row < grid.getGridRows(); row ++ ){
+                for(int col = 0; col < grid.getGridCols(); col ++){
+                    Pixel temp = grid.getPixel(row,col);
+                    int pixelX = temp.getX();
+                    int pixelY = temp.getY();
+                    int pixelRX = temp.getrX();
+                    int pixelRY = temp.getrY();
+                    if(startGame){
+                        if((e.getY() >= pixelY && e.getY() <= pixelRY) && (e.getX() >= pixelX && e.getX() <= pixelRX) ){
+                            grid.setPixelClicks(row,col,1);
+                        }
+                    }
+
                 }
             }
         }
+
+
+        if(showLoadingScreen){
+            System.out.println(clickStart);
+            if(e.getX() >= 80 && e.getX() <= 450 && e.getY() >= 560 && e.getY() <= 720){
+                clickStart++;
+            }
+        }
+
     }
 
     @Override

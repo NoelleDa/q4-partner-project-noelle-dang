@@ -13,10 +13,6 @@ public class Grid {
     private boolean levelIncrease = false;
     private int prevLevel = level - 1;
     //showScreen booleans
-    private boolean showCopyScreen = false;
-    private boolean showMatchScreen = false;
-    private boolean showScoreScreen = false;
-    private boolean showTimerScreen = true;
     //graphics variables
     private Pixel[][] grid;
     private Pixel[][] matchGrid;
@@ -29,21 +25,21 @@ public class Grid {
     private int yGridSquare = 100;
     public String animationOverride = "";
     //constructor
-    public Grid(){
+    public Grid(String fill){
         grid = new Pixel[gridRows][gridCols];
         matchGrid = new Pixel[gridRows][gridCols];
-        fillGrid();
-        fillMatchGrid();
+        if(fill == "White"){
+            fillGrid();
+        }else if(fill == "random"){
+            fillWithMatchGrid();
+        }
     }
-
-
-
     public void fillGrid(){
         for(int i = 0; i < grid.length; i++){
             for(int j = 0; j < grid[i].length; j++){
-                grid[i][j] = new Pixel( "Black" ) ;
+                grid[i][j] = new Pixel( "White" ) ;
                 matchGrid[i][j] = new Pixel(randomColor( (int) (Math.random()*9) ));
-                grid[i][j].setClicks(0);
+                grid[i][j].setClicks(-1);
                 grid[i][j].setX(xGridSquare);
                 grid[i][j].setY(yGridSquare);
                 xGridSquare += squareSize;
@@ -54,26 +50,17 @@ public class Grid {
             }
         }
     }
-//    public void fillBlankGrid(){
-//        for(int i = 0; i < grid.length; i++){
-//            for(int j = 0; j < grid[i].length; j++){
-//                grid[i][j] = new Pixel( "White");
-//                matchGrid[i][j] = new Pixel(randomColor( (int) (Math.random()*9) ));
-//                grid[i][j].setClicks(0);
-//                grid[i][j].setX(xGridSquare);
-//                grid[i][j].setY(yGridSquare);
-//                xGridSquare += squareSize;
-//                if(xGridSquare == (gridCols * squareSize) + squareSize) {
-//                    yGridSquare += squareSize;
-//                    xGridSquare = squareSize;
-//                }
-//            }
-//        }
-//    }
-    public void fillMatchGrid(){
-        for(int i = 0; i < matchGrid.length; i++){
-            for(int j = 0; j < matchGrid[i].length; j++){
-                matchGrid[i][j] = grid[i][j];
+    public void fillWithMatchGrid(){
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[i].length; j++){
+                grid[i][j] = new Pixel(randomColor( (int) (Math.random() * 9) ));
+                grid[i][j].setX(xGridSquare);
+                grid[i][j].setY(yGridSquare);
+                xGridSquare += squareSize;
+                if(xGridSquare == (gridCols * squareSize) + squareSize) {
+                    yGridSquare += squareSize;
+                    xGridSquare = squareSize;
+                }
             }
         }
     }
@@ -86,37 +73,11 @@ public class Grid {
     public void paint(Graphics g){
         paintGridOutline(g);
         //time countdown graphics
-        if(showTimerScreen == true){
-            timer += 20;
-            if(timer % 1000 == 0){
-                time --;
-            }
-            g.setFont(new Font("Impact",Font.PLAIN, 35 ));
-            g.setColor(Color.BLACK);
-            g.drawString("Time: " + displayMinutes(time) + ":" + displaySeconds(time),635,770 );
-        }
         //when time runs out
-        if(time == 0){
-            showTimerScreen = false;
-            showScoreScreen = true;
-        }
-        if(showScoreScreen){
-            g.setColor(Color.white);
-            g.setFont(new Font("IMPACT", Font.PLAIN, 50));
-            g.drawString("Your Score is:" + score, 50,65);
-            g.drawString(checkWinLose(score),450,65);
-        }
+
+
     }
     //display time
-    private long displayMinutes(long time){
-        long amt = this.time / 60;
-        return amt;
-    }
-    private long displaySeconds(long time){
-        long amt = this.time / 60;
-        long seconds = this.time - (amt * 60);
-        return seconds;
-    }
     //drawing the lines for the grid
     private void paintGridOutline(Graphics g) {
         for (int a = 0; a < getLength();a++)
@@ -189,7 +150,7 @@ public class Grid {
     private void resetScore(){
         score = 0;
     }
-    private String checkWinLose(int score){
+    public String checkWinLose(int score){
         if(score >= 65){
             return "!! You Pass!!";
         }else{
