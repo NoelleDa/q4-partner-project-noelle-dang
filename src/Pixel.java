@@ -15,20 +15,6 @@ public class Pixel {
     private int squareSize = 65;
     public Hashtable<String, String> colors;
 
-    /*
-    White - 0 click
-    Black - 1 click
-    Blue - 2 click
-    Brown - 3 click
-    Green - 4 click
-    Orange - 5 click
-    Pink - 6 click
-    Purple - 7 click
-    Red - 8 click
-    White - 9 click
-    Yellow - 10 click
-     */
-
     //constructors
     public Pixel(String color){
         colors = new Hashtable<String,String>();

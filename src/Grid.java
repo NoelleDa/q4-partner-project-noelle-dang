@@ -14,8 +14,8 @@ public class Grid {
     private int prevLevel = level - 1;
     //showScreen booleans
     //graphics variables
-    private Pixel[][] grid;
-    private Pixel[][] matchGrid;
+    public Pixel[][] grid;
+    public Pixel[][] matchGrid;
     private int gridCols = 10;
     private int gridRows = 10;
     public int xOffset = 65;
@@ -31,7 +31,7 @@ public class Grid {
         if(fill == "White"){
             fillGrid();
         }else if(fill == "random"){
-            fillWithMatchGrid();
+            randomRound(0);
         }
     }
     public void fillGrid(){
@@ -49,6 +49,87 @@ public class Grid {
                 }
             }
         }
+    }
+    public void fillMatchGridWithHeart(){
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[i].length; j++){
+                grid[i][j] = new Pixel("White");
+                grid[i][j].setX(xGridSquare);
+                grid[i][j].setY(yGridSquare);
+                xGridSquare += squareSize;
+                if(xGridSquare == (gridCols * squareSize) + squareSize) {
+                    yGridSquare += squareSize;
+                    xGridSquare = squareSize;
+                }
+            }
+        }
+        //black outline
+        grid[1][2].setColor("Black");
+        grid[1][3].setColor("Black");
+        grid[1][6].setColor("Black");
+        grid[1][6].setColor("Black");
+        grid[1][7].setColor("Black");
+        grid[2][1].setColor("Black");
+        grid[2][4].setColor("Black");
+        grid[2][5].setColor("Black");
+        grid[2][8].setColor("Black");
+        grid[3][0].setColor("Black");
+        grid[3][9].setColor("Black");
+        grid[3][9].setColor("Black");
+        grid[4][0].setColor("Black");
+        grid[4][9].setColor("Black");
+        grid[5][0].setColor("Black");
+        grid[5][9].setColor("Black");
+        grid[6][1].setColor("Black");
+        grid[6][8].setColor("Black");
+        grid[7][2].setColor("Black");
+        grid[7][7].setColor("Black");
+        grid[8][3].setColor("Black");
+        grid[8][6].setColor("Black");
+        grid[9][4].setColor("Black");
+        grid[9][5].setColor("Black");
+        //red
+        grid[2][2].setColor("Red");
+        grid[2][3].setColor("Red");
+        grid[2][6].setColor("Red");
+        grid[2][7].setColor("Red");
+        grid[3][1].setColor("Red");
+        grid[3][2].setColor("Red");
+        grid[3][3].setColor("Red");
+        grid[3][4].setColor("Red");
+        grid[3][5].setColor("Red");
+        grid[3][6].setColor("Red");
+        grid[3][7].setColor("Red");
+        grid[3][8].setColor("Red");
+        grid[4][1].setColor("Red");
+        grid[4][2].setColor("Red");
+        grid[4][3].setColor("Red");
+        grid[4][4].setColor("Red");
+        grid[4][5].setColor("Red");
+        grid[4][6].setColor("Red");
+        grid[4][7].setColor("Red");
+        grid[4][8].setColor("Red");
+        grid[5][1].setColor("Red");
+        grid[5][2].setColor("Red");
+        grid[5][3].setColor("Red");
+        grid[5][4].setColor("Red");
+        grid[5][5].setColor("Red");
+        grid[5][6].setColor("Red");
+        grid[5][7].setColor("Red");
+        grid[5][8].setColor("Red");
+        grid[6][2].setColor("Red");
+        grid[6][3].setColor("Red");
+        grid[6][4].setColor("Red");
+        grid[6][5].setColor("Red");
+        grid[6][6].setColor("Red");
+        grid[6][7].setColor("Red");
+        grid[7][3].setColor("Red");
+        grid[7][4].setColor("Red");
+        grid[7][5].setColor("Red");
+        grid[7][6].setColor("Red");
+        grid[8][4].setColor("Red");
+        grid[8][5].setColor("Red");
+
     }
     public void fillWithMatchGrid(){
         for(int i = 0; i < grid.length; i++){
@@ -96,18 +177,13 @@ public class Grid {
 
     }
     //methods
-    public int getGridCols(){
-        return  gridCols;
-    }
-    public int getGridRows(){
-        return gridRows;
-    }
-    public Pixel getPixel(int row, int col){
-        return grid[row][col];
-    }
-
     public void setPixelClicks(int row, int col, int n){
         grid[row][col].setClicks(1);
+    }
+    private void randomRound(int num){
+        if(num == 0){
+            fillMatchGridWithHeart();
+        }
     }
     public String randomColor(int num){
         if(num == 0){

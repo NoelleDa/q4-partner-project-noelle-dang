@@ -46,6 +46,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     private boolean startGame = false;
     private boolean matchScreen = false;
     private boolean blankScreen = false;
+    private boolean editGrid = false;
     private boolean showScoreScreen = false;
     private boolean showInstructionsScreen = false;
     private boolean showTimerScreen = false;
@@ -80,10 +81,10 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             g.drawString("Time: " + displayMinutes(time) + ":" + displaySeconds(time),635,770 );
         }
         if(showScoreScreen){
-            checkScoreResults(matchGrid,grid);
-            g.setColor(Color.white);
+            checkScoreResults(matchGrid.grid,grid.grid);
+            g.setColor(Color.black);
             g.setFont(new Font("IMPACT", Font.PLAIN, 50));
-            g.drawString("Your Score is:" + score, 50,65);
+            g.drawString("Your Score is:" + this.score, 50,65);
             g.drawString(checkWinLose(score),450,65);
         }
        if(startGame){
@@ -94,7 +95,8 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                if(time == 0) {
                    matchScreen = false;
                    blankScreen = true;
-                   setTime(18);
+                   editGrid = true;
+                   setTime(12);
                }
            }
            timer += 20;
@@ -107,6 +109,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                if(time == 0){
                    showTimerScreen = false;
                    showScoreScreen = true;
+                   editGrid = false;
                }
            }
        }
@@ -248,21 +251,24 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
         if(blankScreen){
-            for(int row = 0; row < grid.getGridRows(); row ++ ){
-                for(int col = 0; col < grid.getGridCols(); col ++){
-                    Pixel temp = grid.getPixel(row,col);
-                    int pixelX = temp.getX();
-                    int pixelY = temp.getY();
-                    int pixelRX = temp.getrX();
-                    int pixelRY = temp.getrY();
-                    if(startGame){
-                        if((e.getY() >= pixelY && e.getY() <= pixelRY) && (e.getX() >= pixelX && e.getX() <= pixelRX) ){
-                            grid.setPixelClicks(row,col,1);
+            if(editGrid){
+                for(int row = 0; row < grid.getLength(); row ++ ){
+                    for(int col = 0; col < grid.getHeight(); col ++){
+                        Pixel temp = grid.getValue(row,col);
+                        int pixelX = temp.getX();
+                        int pixelY = temp.getY();
+                        int pixelRX = temp.getrX();
+                        int pixelRY = temp.getrY();
+                        if(startGame){
+                            if((e.getY() >= pixelY && e.getY() <= pixelRY) && (e.getX() >= pixelX && e.getX() <= pixelRX) ){
+                                grid.setPixelClicks(row,col,1);
+                            }
                         }
-                    }
 
+                    }
                 }
             }
+
         }
         if(showLoadingScreen){
             System.out.println(clickStart);
@@ -314,16 +320,17 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 translateGridPosition(gridPosition,grid)[1]+43,6,20);
     }
 
-    private void checkScoreResults(Grid matchGrid, Grid editedGrid){
-        for(int i = 0; i <  editedGrid.getGridRows(); i++){
-            for(int j = 0; j < editedGrid.getGridCols(); j++){
-                if(editedGrid.getPixel(i,j) == matchGrid.getPixel(i,j)){
-                    score++;
+    private void checkScoreResults(Pixel[][] matchGrid, Pixel[][] editedGrid){
+        for(int i = 0; i <  editedGrid.length; i++){
+            for(int j = 0; j < editedGrid[i].length; j++){
+                Pixel edited = editedGrid[i][j];
+                Pixel match = matchGrid[i][j];
+                if(edited.getColor().equals(match.getColor())){
+                    this.score++;
                 }
             }
         }
     }
-
     private String checkWinLose(int score){
         if(score >= 65){
             return "!! You Pass!!";
