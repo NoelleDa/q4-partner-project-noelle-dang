@@ -48,7 +48,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     private boolean blankScreen = false;
     private boolean editGrid = false;
     private boolean showScoreScreen = false;
-    private boolean showInstructionsScreen = false;
+    private boolean chooseDifficulty = false;
     private boolean showTimerScreen = false;
     private int clickStart = 0;
 
@@ -65,9 +65,9 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         tickRate();
         setScreen(g,"Background.png");
         if(showLoadingScreen){
-            setScreen(g,"StartScreen.gif");
+            setScreen(g,"PixelMatchStartScreen.png");
             if(clickStart > 0){
-                showInstructionsScreen = true;
+                chooseDifficulty = true;
                 showLoadingScreen = false;
                 clickStart = 0;
                 setTime(12);
@@ -113,17 +113,9 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                }
            }
        }
-       if(showInstructionsScreen){
-           setScreen(g,"InstructionsScreen.gif");
-           timer += 20;
-           if(timer % 1000 == 0){
-               time--;
-           }
-           if(time == 0){
-               showInstructionsScreen = false;
-               startGame = true;
-               setTime(15);
-           }
+       if(chooseDifficulty){
+           setScreen(g,"DifficultyScreen.png");
+           setTime(g,"");
        }
         clickFunctionUpdate(g);
     }
@@ -188,6 +180,12 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     @Override
     public void keyPressed(KeyEvent arg0) {
         // TODO Auto-generated method stub
+        if(showLoadingScreen){
+            System.out.println(clickStart);
+            if(arg0.getKeyCode() == 10){
+                clickStart++;
+            }
+        }
     }
     @Override
     public void keyReleased(KeyEvent arg0) {
@@ -269,12 +267,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 }
             }
 
-        }
-        if(showLoadingScreen){
-            System.out.println(clickStart);
-            if(e.getX() >= 80 && e.getX() <= 450 && e.getY() >= 560 && e.getY() <= 720){
-                clickStart++;
-            }
         }
 
     }
