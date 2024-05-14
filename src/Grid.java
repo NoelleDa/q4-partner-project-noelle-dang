@@ -1,18 +1,7 @@
 import java.awt.*;
 
 public class Grid {
-    //instance variables
-    //timer variables
-    private long timer = 0; // animation timer - time based on the animation speed
-    private long time = 180;
-    private long nextLevelTimer = 0;
-    private long nextLevelTime = 3;
-    //scoring variables
-    private int score = 0;
-    private int level = 0;
-    private boolean levelIncrease = false;
-    private int prevLevel = level - 1;
-    //showScreen booleans
+   //instance variables
     //graphics variables
     public Pixel[][] grid;
     public Pixel[][] matchGrid;
@@ -50,87 +39,7 @@ public class Grid {
             }
         }
     }
-    public void fillMatchGridWithHeart(){
-        for(int i = 0; i < grid.length; i++){
-            for(int j = 0; j < grid[i].length; j++){
-                grid[i][j] = new Pixel("White");
-                grid[i][j].setX(xGridSquare);
-                grid[i][j].setY(yGridSquare);
-                xGridSquare += squareSize;
-                if(xGridSquare == (gridCols * squareSize) + squareSize) {
-                    yGridSquare += squareSize;
-                    xGridSquare = squareSize;
-                }
-            }
-        }
-        //black outline
-        grid[1][2].setColor("Black");
-        grid[1][3].setColor("Black");
-        grid[1][6].setColor("Black");
-        grid[1][6].setColor("Black");
-        grid[1][7].setColor("Black");
-        grid[2][1].setColor("Black");
-        grid[2][4].setColor("Black");
-        grid[2][5].setColor("Black");
-        grid[2][8].setColor("Black");
-        grid[3][0].setColor("Black");
-        grid[3][9].setColor("Black");
-        grid[3][9].setColor("Black");
-        grid[4][0].setColor("Black");
-        grid[4][9].setColor("Black");
-        grid[5][0].setColor("Black");
-        grid[5][9].setColor("Black");
-        grid[6][1].setColor("Black");
-        grid[6][8].setColor("Black");
-        grid[7][2].setColor("Black");
-        grid[7][7].setColor("Black");
-        grid[8][3].setColor("Black");
-        grid[8][6].setColor("Black");
-        grid[9][4].setColor("Black");
-        grid[9][5].setColor("Black");
-        //red
-        grid[2][2].setColor("Red");
-        grid[2][3].setColor("Red");
-        grid[2][6].setColor("Red");
-        grid[2][7].setColor("Red");
-        grid[3][1].setColor("Red");
-        grid[3][2].setColor("Red");
-        grid[3][3].setColor("Red");
-        grid[3][4].setColor("Red");
-        grid[3][5].setColor("Red");
-        grid[3][6].setColor("Red");
-        grid[3][7].setColor("Red");
-        grid[3][8].setColor("Red");
-        grid[4][1].setColor("Red");
-        grid[4][2].setColor("Red");
-        grid[4][3].setColor("Red");
-        grid[4][4].setColor("Red");
-        grid[4][5].setColor("Red");
-        grid[4][6].setColor("Red");
-        grid[4][7].setColor("Red");
-        grid[4][8].setColor("Red");
-        grid[5][1].setColor("Red");
-        grid[5][2].setColor("Red");
-        grid[5][3].setColor("Red");
-        grid[5][4].setColor("Red");
-        grid[5][5].setColor("Red");
-        grid[5][6].setColor("Red");
-        grid[5][7].setColor("Red");
-        grid[5][8].setColor("Red");
-        grid[6][2].setColor("Red");
-        grid[6][3].setColor("Red");
-        grid[6][4].setColor("Red");
-        grid[6][5].setColor("Red");
-        grid[6][6].setColor("Red");
-        grid[6][7].setColor("Red");
-        grid[7][3].setColor("Red");
-        grid[7][4].setColor("Red");
-        grid[7][5].setColor("Red");
-        grid[7][6].setColor("Red");
-        grid[8][4].setColor("Red");
-        grid[8][5].setColor("Red");
 
-    }
     public void fillWithMatchGrid(){
         for(int i = 0; i < grid.length; i++){
             for(int j = 0; j < grid[i].length; j++){
@@ -182,7 +91,7 @@ public class Grid {
     }
     private void randomRound(int num){
         if(num == 0){
-            fillMatchGridWithHeart();
+            fillWithMatchGrid();
         }
     }
     public String randomColor(int num){
@@ -212,13 +121,12 @@ public class Grid {
         return grid[row][col];
     }
 
-    private void resetScore(){
-        score = 0;
-    }
     public void setPixel(int row, int col,String newColor, int clicks){
         grid[row][col] = new Pixel(newColor);
         grid[row][col].setClicks(clicks);
 
     }
+
+
 
 } // end of class

@@ -52,6 +52,12 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     private boolean showTimerScreen = false;
     private int clickStart = 0;
 
+    //difficulty settings
+    private boolean easy = false;
+    private String difficulty;
+    private boolean medium = false;
+    private boolean hard = false;
+
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         Runner f = new Runner();
@@ -63,9 +69,9 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         tickRate();
-        setScreen(g,"Background.png");
+        setScreen(g,"Background.png",0,0);
         if(showLoadingScreen){
-            setScreen(g,"PixelMatchStartScreen.png");
+            setScreen(g,"PixelMatchStartScreen.png",0,0);
             if(clickStart > 0){
                 chooseDifficulty = true;
                 showLoadingScreen = false;
@@ -77,17 +83,20 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         }
         if(showTimerScreen){
             g.setFont(new Font("Impact",Font.PLAIN, 35 ));
-            g.setColor(Color.BLACK);
+            g.setColor(Color.WHITE);
             g.drawString("Time: " + displayMinutes(time) + ":" + displaySeconds(time),635,770 );
         }
         if(showScoreScreen){
             checkScoreResults(matchGrid.grid,grid.grid);
-            g.setColor(Color.black);
+            g.setColor(Color.WHITE);
             g.setFont(new Font("IMPACT", Font.PLAIN, 50));
             g.drawString("Your Score is:" + this.score, 50,65);
             g.drawString(checkWinLose(score),450,65);
         }
        if(startGame){
+           g.setColor(Color.WHITE);
+           g.setFont(new Font("IMPACT", Font.PLAIN, 25));
+           g.drawString("Difficulty:  " + this.difficulty, 50,775);
            updatePointer();
            if(matchScreen){
                grid.paint(g);
@@ -114,8 +123,10 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
            }
        }
        if(chooseDifficulty){
-           setScreen(g,"DifficultyScreen.png");
-           setTime(g,"");
+           setScreen(g,"DifficultyScreen.png",0,0);
+           setScreen(g,"EasyButton.png",-250,50);
+           setScreen(g,"MediumButton.png",0,50);
+           setScreen(g,"HardButton.png",250,50);
        }
         clickFunctionUpdate(g);
     }
@@ -154,9 +165,9 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             drawPointer(temp, grid, g);
         }
     }
-    private void setScreen(Graphics g, String fileName){
+    private void setScreen(Graphics g, String fileName, int x, int y){
         Graphics2D g2 = (Graphics2D) g;
-        tx = AffineTransform.getTranslateInstance(0,0);
+        tx = AffineTransform.getTranslateInstance(x,y);
         Sprite = getImage("Colors//"+ fileName);
         g2.drawImage(Sprite,tx,null);
     }
@@ -248,6 +259,27 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
+        if(chooseDifficulty){
+            if(e.getX() >= 50 && e.getX() <= 250 && e.getY() >= 450 && e.getY() <= 500){
+                this.easy = true;
+                System.out.println("Easy Button has been clicked");
+                chooseDifficulty = false;
+                startGame = true;
+                difficulty = "Easy";
+            }else if(e.getX() >= 300 && e.getX() <= 500 && e.getY() >= 450 && e.getY() <= 500 ){
+                this.medium = true;
+                System.out.println("Medium Button has been clicked");
+                chooseDifficulty = false;
+                startGame = true;
+                difficulty = "Medium";
+            }else if(e.getX() >= 550 && e.getX() <= 750 && e.getY() >= 450 && e.getY() <= 500){
+                this.hard = true;
+                System.out.println("Hard Button has been clicked");
+                chooseDifficulty = false;
+                startGame = true;
+                difficulty = "Hard";
+            }
+        }
         if(blankScreen){
             if(editGrid){
                 for(int row = 0; row < grid.getLength(); row ++ ){
