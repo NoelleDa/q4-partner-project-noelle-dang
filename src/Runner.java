@@ -19,11 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-
-//*********************************
-//* Complete Methods in Grid.java *
-//*********************************
-
 public class Runner extends JPanel implements KeyListener, ActionListener, MouseListener {
     Grid grid = new Grid("White");
     Grid matchGrid = new Grid("random");
@@ -38,7 +33,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     private AffineTransform tx;
     private Image Sprite;
     //timer variables
-
     private long timer = 0; // animation timer - time based on the animation speed
     private long time = 3;
     //show image variables

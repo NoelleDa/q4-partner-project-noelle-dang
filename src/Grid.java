@@ -17,9 +17,9 @@ public class Grid {
     public Grid(String fill){
         grid = new Pixel[gridRows][gridCols];
         matchGrid = new Pixel[gridRows][gridCols];
-        if(fill == "White"){
+        if(fill.equals("White")){
             fillGrid();
-        }else if(fill == "random"){
+        }else if(fill.equals("random")){
             randomRound(0);
         }
     }
@@ -40,7 +40,7 @@ public class Grid {
         }
     }
 
-    public void fillWithMatchGrid(){
+    public void fillWithMatchGridHARD(){
         for(int i = 0; i < grid.length; i++){
             for(int j = 0; j < grid[i].length; j++){
                 grid[i][j] = new Pixel(randomColor( (int) (Math.random() * 9) ));
@@ -54,6 +54,7 @@ public class Grid {
             }
         }
     }
+
     public int getLength(){
         return grid.length;
     }
@@ -88,7 +89,7 @@ public class Grid {
     }
     private void randomRound(int num){
         if(num == 0){
-            fillWithMatchGrid();
+            fillWithMatchGridHARD();
         }
     }
     public String randomColor(int num){
@@ -117,13 +118,5 @@ public class Grid {
     public Pixel getValue(int row, int col){
         return grid[row][col];
     }
-
-    public void setPixel(int row, int col,String newColor, int clicks){
-        grid[row][col] = new Pixel(newColor);
-        grid[row][col].setClicks(clicks);
-
-    }
-
-
 
 } // end of class
