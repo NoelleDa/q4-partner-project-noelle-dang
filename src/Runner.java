@@ -50,6 +50,12 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     private boolean showScoreScreen = false;
     private boolean chooseDifficulty = false;
     private boolean showTimerScreen = false;
+    private boolean HowToPlayScreen = false;
+    private boolean instructionsOne = false;
+    private boolean instructionsTwo = false;
+    private boolean instructionsThree = false;
+    private boolean instructionsFour = false;
+    private boolean startButtonScreen = false;
     private int clickStart = 0;
 
     //difficulty settings
@@ -86,6 +92,49 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             g.setColor(Color.WHITE);
             g.drawString("Time: " + displayMinutes(time) + ":" + displaySeconds(time),635,770 );
         }
+        if(HowToPlayScreen){
+            setScreen(g,"How to Play.png",0,0);
+            if(clickStart > 0){
+                HowToPlayScreen = false;
+                clickStart = 0;
+                instructionsOne = true;
+            }
+        }
+        if(instructionsOne){
+            setScreen(g,"How to Play (1).png",0,0);
+            if(clickStart > 0){
+                instructionsOne = false;
+                clickStart = 0;
+                instructionsTwo = true;
+            }
+        }
+        if(instructionsTwo){
+            setScreen(g,"How to Play (2).png",0,0);
+            if(clickStart > 0){
+                instructionsTwo = false;
+                clickStart = 0;
+                instructionsThree = true;
+            }
+        }
+        if(instructionsThree){
+            setScreen(g,"How to Play (3).png",0,0);
+            if(clickStart > 0){
+                instructionsThree = false;
+                clickStart = 0;
+                instructionsFour = true;
+            }
+        }
+        if(instructionsFour){
+            setScreen(g,"How to Play (4).png",0,0);
+            if(clickStart > 0){
+                instructionsFour = false;
+                clickStart = 0;
+                startButtonScreen = true;
+            }
+        }
+        if(startButtonScreen){
+            setScreen(g,"Start Button.png",0,0);
+        }
         if(showScoreScreen){
             checkScoreResults(matchGrid.grid,grid.grid);
             g.setColor(Color.WHITE);
@@ -105,7 +154,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                    matchScreen = false;
                    blankScreen = true;
                    editGrid = true;
-                   setTime(12);
+                   setTime(180);
                }
            }
            timer += 20;
@@ -192,8 +241,32 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     public void keyPressed(KeyEvent arg0) {
         // TODO Auto-generated method stub
         if(showLoadingScreen){
-            System.out.println(clickStart);
             if(arg0.getKeyCode() == 10){
+                clickStart++;
+            }
+        }
+        if(HowToPlayScreen){
+            if(arg0.getKeyCode() == 32){
+                clickStart++;
+            }
+        }
+        if(instructionsOne){
+            if(arg0.getKeyCode() == 32){
+                clickStart++;
+            }
+        }
+        if(instructionsTwo){
+            if(arg0.getKeyCode() == 32){
+                clickStart++;
+            }
+        }
+        if(instructionsThree){
+            if(arg0.getKeyCode() == 32){
+                clickStart++;
+            }
+        }
+        if(instructionsFour){
+            if(arg0.getKeyCode() == 32){
                 clickStart++;
             }
         }
@@ -264,20 +337,26 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 this.easy = true;
                 System.out.println("Easy Button has been clicked");
                 chooseDifficulty = false;
-                startGame = true;
+                HowToPlayScreen = true;
                 difficulty = "Easy";
             }else if(e.getX() >= 300 && e.getX() <= 500 && e.getY() >= 450 && e.getY() <= 500 ){
                 this.medium = true;
                 System.out.println("Medium Button has been clicked");
                 chooseDifficulty = false;
-                startGame = true;
+                HowToPlayScreen = true;
                 difficulty = "Medium";
             }else if(e.getX() >= 550 && e.getX() <= 750 && e.getY() >= 450 && e.getY() <= 500){
                 this.hard = true;
                 System.out.println("Hard Button has been clicked");
                 chooseDifficulty = false;
-                startGame = true;
+                HowToPlayScreen = true;
                 difficulty = "Hard";
+            }
+        }
+        if(startButtonScreen){
+            if(e.getX() >= 230 && e.getX() <= 550 && e.getY() >= 660 && e.getY() <= 750){
+                startGame = true;
+                startButtonScreen = false;
             }
         }
         if(blankScreen){

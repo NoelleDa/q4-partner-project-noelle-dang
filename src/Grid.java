@@ -62,9 +62,6 @@ public class Grid {
     }
     public void paint(Graphics g){
         paintGridOutline(g);
-        //time countdown graphics
-        //when time runs out
-
 
     }
     //display time
