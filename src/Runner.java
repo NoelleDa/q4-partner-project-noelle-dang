@@ -50,7 +50,9 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     private boolean instructionsThree = false;
     private boolean instructionsFour = false;
     private boolean startButtonScreen = false;
+    private boolean nextRoundScreen = false;
     private int clickStart = 0;
+    private int amountOfRounds = 3;
 
     //difficulty settings
     private boolean easy = false;
@@ -61,9 +63,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         Runner f = new Runner();
-    }
-    public void setActiveAnimation(String s) {
-        activeAnimation = s;
     }
     public void paint(Graphics g) {
         super.paintComponent(g);
@@ -130,41 +129,52 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             setScreen(g,"Start Button.png",0,0);
         }
         if(showScoreScreen){
-            checkScoreResults(matchGrid.grid,grid.grid);
+            checkScoreResults(matchGrid,grid);
             g.setColor(Color.WHITE);
             g.setFont(new Font("IMPACT", Font.PLAIN, 50));
             g.drawString("Your Score is:" + this.score, 50,65);
             g.drawString(checkWinLose(score),450,65);
+            if(time == 0){
+                nextRoundScreen = true;
+            }
         }
-       if(startGame){
-           g.setColor(Color.WHITE);
-           g.setFont(new Font("IMPACT", Font.PLAIN, 25));
-           g.drawString("Difficulty:  " + this.difficulty, 50,775);
-           updatePointer();
-           if(matchScreen){
-               grid.paint(g);
-               paintGridContents(g,matchGrid);
-               if(time == 0) {
-                   matchScreen = false;
-                   blankScreen = true;
-                   editGrid = true;
-                   setTime(180);
-               }
-           }
-           timer += 20;
-           if(timer % 1000 == 0){
-               time--;
-           }
-           if(blankScreen){
-               grid.paint(g);
-               paintGridContents(g,grid);
-               if(time == 0){
-                   showTimerScreen = false;
-                   showScoreScreen = true;
-                   editGrid = false;
-               }
-           }
-       }
+        if(nextRoundScreen){
+            setScreen(g,"NextRoundScreen.png",0,0);
+        }
+
+        if(amountOfRounds > 0){
+            if(startGame){
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("IMPACT", Font.PLAIN, 25));
+                g.drawString("Difficulty:  " + this.difficulty, 50,775);
+                updatePointer();
+                if(matchScreen){
+                    grid.paint(g);
+                    paintGridContents(g,matchGrid);
+                    if(time == 0) {
+                        matchScreen = false;
+                        blankScreen = true;
+                        editGrid = true;
+                        setTime(10);
+                    }
+                }
+                timer += 20;
+                if(timer % 1000 == 0){
+                    time--;
+                }
+                if(blankScreen){
+                    grid.paint(g);
+                    paintGridContents(g,grid);
+                    if(time == 0){
+                        showScoreScreen = true;
+                        editGrid = false;
+                        blankScreen = false;
+                        setTime(5);
+                    }
+                }
+            }
+        }
+
        if(chooseDifficulty){
            setScreen(g,"DifficultyScreen.png",0,0);
            setScreen(g,"EasyButton.png",-250,50);
@@ -214,18 +224,15 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         Sprite = getImage("Colors//"+ fileName);
         g2.drawImage(Sprite,tx,null);
     }
-
     private long displayMinutes(long time){
         long amt = this.time / 60;
         return amt;
     }
-
     private long displaySeconds(long time){
         long amt = this.time / 60;
         long seconds = this.time - (amt * 60);
         return seconds;
     }
-
     @Override
     public void actionPerformed(ActionEvent arg0) {
         // TODO Auto-generated method stub
@@ -417,16 +424,18 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 translateGridPosition(gridPosition,grid)[1]+43,6,20);
     }
 
-    private void checkScoreResults(Pixel[][] matchGrid, Pixel[][] editedGrid){
-        for(int i = 0; i <  editedGrid.length; i++){
-            for(int j = 0; j < editedGrid[i].length; j++){
-                Pixel edited = editedGrid[i][j];
-                Pixel match = matchGrid[i][j];
-                if(edited.getColor().equals(match.getColor())){
-                    this.score++;
+    private void checkScoreResults(Grid originalGrid, Grid editedGrid){
+
+        int tempScore = 0;
+        for(int i = 0; i < originalGrid.getHeight(); i++){
+            for(int j = 0; j < originalGrid.getLength(); j++){
+
+                if(originalGrid.getValue(i,j).getColor().equals(editedGrid.getValue(i,j).getColor())){
+                    tempScore ++;
                 }
             }
         }
+        this.score = tempScore;
     }
     private String checkWinLose(int score){
         if(score >= 65){

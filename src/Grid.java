@@ -39,7 +39,6 @@ public class Grid {
             }
         }
     }
-
     public void fillWithMatchGridHARD(){
         for(int i = 0; i < grid.length; i++){
             for(int j = 0; j < grid[i].length; j++){
@@ -51,6 +50,15 @@ public class Grid {
                     yGridSquare += squareSize;
                     xGridSquare = squareSize;
                 }
+            }
+        }
+    }
+    public void fillWithMatchGridEASY(){
+
+        for(int i = 0; i < grid.length; i+=5){
+            for(int j = 0; j < grid[i].length; j+=5){
+                Pixel temp = new Pixel(randomColor((int) (Math.random() * 9)));
+
             }
         }
     }
