@@ -24,12 +24,10 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     Grid matchGrid = new Grid("random");
     Point mousePosition = new Point(0,0);
     boolean mouseDown;
-    Point tempClickPosition;
     int[] passthrough = new int[3];
     int score = 0;
     int frameDelay = 0;
     String activeAnimation = "none";
-    boolean initialize = true;
     private AffineTransform tx;
     private Image Sprite;
     //timer variables
@@ -53,12 +51,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     private boolean nextRoundScreen = false;
     private int clickStart = 0;
     private int amountOfRounds = 3;
-
-    //difficulty settings
-    private boolean easy = false;
     private String difficulty;
-    private boolean medium = false;
-    private boolean hard = false;
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
@@ -183,6 +176,22 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
        }
         clickFunctionUpdate(g);
     }
+
+    private void resetRound(){
+        amountOfRounds--;
+        System.out.println(amountOfRounds);
+        if(difficulty.equals("Hard")){
+            matchGrid.fillWithMatchGridHARD();
+            grid.fillGrid();
+        }else if(difficulty.equals("Medium")){
+            matchGrid.fillWithMatchGridMedium();
+            grid.fillGrid();
+        }else{
+            matchGrid.fillWithMatchGridEASY();
+            grid.fillGrid();
+        }
+        startGame = true;
+    }
     private void setTime(int n){
         this.time = n;
     }
@@ -271,6 +280,12 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 clickStart++;
             }
         }
+        if(nextRoundScreen){
+            if(arg0.getKeyCode() == 32){
+                nextRoundScreen = false;
+                resetRound();
+            }
+        }
     }
     @Override
     public void keyReleased(KeyEvent arg0) {
@@ -335,28 +350,30 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         // TODO Auto-generated method stub
         if(chooseDifficulty){
             if(e.getX() >= 50 && e.getX() <= 250 && e.getY() >= 450 && e.getY() <= 500){
-                this.easy = true;
                 System.out.println("Easy Button has been clicked");
                 chooseDifficulty = false;
                 HowToPlayScreen = true;
                 difficulty = "Easy";
+                matchGrid.fillWithMatchGridEASY();
             }else if(e.getX() >= 300 && e.getX() <= 500 && e.getY() >= 450 && e.getY() <= 500 ){
-                this.medium = true;
                 System.out.println("Medium Button has been clicked");
                 chooseDifficulty = false;
                 HowToPlayScreen = true;
                 difficulty = "Medium";
+                matchGrid.fillWithMatchGridMedium();
             }else if(e.getX() >= 550 && e.getX() <= 750 && e.getY() >= 450 && e.getY() <= 500){
-                this.hard = true;
                 System.out.println("Hard Button has been clicked");
                 chooseDifficulty = false;
                 HowToPlayScreen = true;
                 difficulty = "Hard";
+                matchGrid.fillWithMatchGridHARD();
             }
         }
         if(startButtonScreen){
             if(e.getX() >= 230 && e.getX() <= 550 && e.getY() >= 660 && e.getY() <= 750){
                 startGame = true;
+                amountOfRounds--;
+                System.out.println(amountOfRounds);
                 startButtonScreen = false;
             }
         }

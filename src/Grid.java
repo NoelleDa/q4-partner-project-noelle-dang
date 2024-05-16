@@ -54,13 +54,42 @@ public class Grid {
         }
     }
     public void fillWithMatchGridEASY(){
-
-        for(int i = 0; i < grid.length; i+=5){
-            for(int j = 0; j < grid[i].length; j+=5){
-                Pixel temp = new Pixel(randomColor((int) (Math.random() * 9)));
-
+        Pixel temp = new Pixel(randomColor((int) (Math.random() * 9)));
+        Pixel temp1 = new Pixel(randomColor((int) (Math.random() * 9)));
+        Pixel temp2 = new Pixel(randomColor((int) (Math.random() * 9)));
+        Pixel temp3 = new Pixel(randomColor((int) (Math.random() * 9)));
+        for(int i = 0; i < grid.length/2; i++){
+            for(int j = 0; j < grid[i].length/2; j++){
+                grid[i][j] = temp;
             }
         }
+        for(int i = 0; i < grid.length/2; i++){
+            for(int j = grid[i].length/2; j < grid[i].length; j++){
+                grid[i][j] = temp1;
+            }
+        }
+        for(int i = grid.length/2; i < grid.length; i++){
+            for(int j = 0; j < grid[i].length/2; j++){
+                grid[i][j] = temp2;
+            }
+        }
+        for(int i = grid.length/2; i < grid.length; i++){
+            for(int j = grid[i].length/2; j < grid[i].length; j++){
+                grid[i][j] = temp3;
+            }
+        }
+    }
+    public void fillWithMatchGridMedium(){
+        for(int i = 0; i < grid.length; i+=2){
+            for(int j = 0; j <grid[i].length; j+=2){
+                Pixel temp = new Pixel(randomColor((int) (Math.random() * 9)));
+                grid[i][j] = temp;
+                grid[i+1][j] = temp;
+                grid[i][j+1] = temp;
+                grid[i+1][j+1] = temp;
+            }
+        }
+
     }
 
     public int getLength(){
