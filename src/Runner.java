@@ -129,45 +129,45 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             g.drawString(checkWinLose(score),450,65);
             if(time == 0){
                 nextRoundScreen = true;
+                startGame = false;
+                showScoreScreen = false;
+                resetGrids();
             }
         }
         if(nextRoundScreen){
             setScreen(g,"NextRoundScreen.png",0,0);
         }
 
-        if(amountOfRounds > 0){
-            if(startGame){
+        if(startGame){
                 g.setColor(Color.WHITE);
                 g.setFont(new Font("IMPACT", Font.PLAIN, 25));
                 g.drawString("Difficulty:  " + this.difficulty, 50,775);
                 updatePointer();
-                if(matchScreen){
-                    grid.paint(g);
-                    paintGridContents(g,matchGrid);
-                    if(time == 0) {
-                        matchScreen = false;
-                        blankScreen = true;
-                        editGrid = true;
-                        setTime(10);
-                    }
+            timer += 20;
+            if(timer % 1000 == 0){
+                time--;
+            }
+            if(matchScreen){
+                matchGrid.paint(g);
+                paintGridContents(g,matchGrid);
+                if(time == 0) {
+                    matchScreen = false;
+                    blankScreen = true;
+                    editGrid = true;
+                    setTime(10);
                 }
-                timer += 20;
-                if(timer % 1000 == 0){
-                    time--;
-                }
-                if(blankScreen){
-                    grid.paint(g);
-                    paintGridContents(g,grid);
-                    if(time == 0){
-                        showScoreScreen = true;
-                        editGrid = false;
-                        blankScreen = false;
-                        setTime(5);
-                    }
+            }
+            if(blankScreen){
+                grid.paint(g);
+                paintGridContents(g,grid);
+                if(time == 0){
+                    showScoreScreen = true;
+                    editGrid = false;
+                    blankScreen = false;
+                    setTime(5);
                 }
             }
         }
-
        if(chooseDifficulty){
            setScreen(g,"DifficultyScreen.png",0,0);
            setScreen(g,"EasyButton.png",-250,50);
@@ -177,20 +177,21 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         clickFunctionUpdate(g);
     }
 
-    private void resetRound(){
-        amountOfRounds--;
-        System.out.println(amountOfRounds);
+    private void resetGrids(){
+        System.out.println("Amount of Rounds: " + amountOfRounds);
         if(difficulty.equals("Hard")){
             matchGrid.fillWithMatchGridHARD();
+            grid.resetBlankGrid();
             grid.fillGrid();
         }else if(difficulty.equals("Medium")){
             matchGrid.fillWithMatchGridMedium();
+            grid.resetBlankGrid();
             grid.fillGrid();
         }else{
             matchGrid.fillWithMatchGridEASY();
+            grid.resetBlankGrid();
             grid.fillGrid();
         }
-        startGame = true;
     }
     private void setTime(int n){
         this.time = n;
@@ -283,7 +284,10 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         if(nextRoundScreen){
             if(arg0.getKeyCode() == 32){
                 nextRoundScreen = false;
-                resetRound();
+                startGame = true;
+                matchScreen = true;
+                this.score = 0;
+                setTime(15);
             }
         }
     }
@@ -372,12 +376,10 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         if(startButtonScreen){
             if(e.getX() >= 230 && e.getX() <= 550 && e.getY() >= 660 && e.getY() <= 750){
                 startGame = true;
-                amountOfRounds--;
-                System.out.println(amountOfRounds);
+                System.out.println("Start Button has been clicked");
                 startButtonScreen = false;
             }
         }
-        if(blankScreen){
             if(editGrid){
                 for(int row = 0; row < grid.getLength(); row ++ ){
                     for(int col = 0; col < grid.getHeight(); col ++){
@@ -386,18 +388,12 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                         int pixelY = temp.getY();
                         int pixelRX = temp.getrX();
                         int pixelRY = temp.getrY();
-                        if(startGame){
-                            if((e.getY() >= pixelY && e.getY() <= pixelRY) && (e.getX() >= pixelX && e.getX() <= pixelRX) ){
+                        if((e.getY() >= pixelY && e.getY() <= pixelRY) && (e.getX() >= pixelX && e.getX() <= pixelRX) ){
                                 grid.setPixelClicks(row,col,1);
-                            }
                         }
-
                     }
                 }
             }
-
-        }
-
     }
 
     @Override

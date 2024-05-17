@@ -79,6 +79,14 @@ public class Grid {
             }
         }
     }
+    public void resetBlankGrid(){
+        for(int i = 0; i < gridRows; i++){
+            for(int j = 0; j < gridCols; j++){
+                grid[i][j] = null;
+            }
+        }
+    }
+
     public void fillWithMatchGridMedium(){
         for(int i = 0; i < grid.length; i+=2){
             for(int j = 0; j <grid[i].length; j+=2){
