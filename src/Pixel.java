@@ -51,6 +51,8 @@ public class Pixel {
     public int getClicks(){
         return this.clicks;
     }
+
+
     public void setClicks(int amount){
         this.clicks += amount;
         if(this.clicks == 1){

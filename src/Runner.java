@@ -124,18 +124,31 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         if(showScoreScreen){
             checkScoreResults(matchGrid,grid);
             g.setColor(Color.WHITE);
+            if(checkWinLose(score).equals("!! You Pass!!")){
+                setScreen(g,"YouPassScreen.png",0,0);
+            }else{
+                setScreen(g,"YouFailedScreen.png",0,0);
+            }
             g.setFont(new Font("IMPACT", Font.PLAIN, 50));
-            g.drawString("Your Score is:" + this.score, 50,65);
             g.drawString(checkWinLose(score),450,65);
+            g.drawString("Your Score is:" + this.score, 50,65);
             if(time == 0){
-                nextRoundScreen = true;
-                startGame = false;
-                showScoreScreen = false;
-                resetGrids();
+                if(amountOfRounds > 0){
+                    nextRoundScreen = true;
+                    startGame = false;
+                    showScoreScreen = false;
+                    setTime(15);
+                    resetGrids();
+                } else{
+                    setScreen(g,"gameOver.png",0,0);
+                    showScoreScreen = false;
+                }
+
             }
         }
         if(nextRoundScreen){
             setScreen(g,"NextRoundScreen.png",0,0);
+            amountOfRounds--;
         }
 
         if(startGame){
@@ -154,7 +167,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                     matchScreen = false;
                     blankScreen = true;
                     editGrid = true;
-                    setTime(10);
+                    setTime(20);
                 }
             }
             if(blankScreen){
@@ -181,16 +194,13 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         System.out.println("Amount of Rounds: " + amountOfRounds);
         if(difficulty.equals("Hard")){
             matchGrid.fillWithMatchGridHARD();
-            grid.resetBlankGrid();
-            grid.fillGrid();
+            grid.setWholeGridBlank();
         }else if(difficulty.equals("Medium")){
             matchGrid.fillWithMatchGridMedium();
-            grid.resetBlankGrid();
-            grid.fillGrid();
+            grid.setWholeGridBlank();
         }else{
             matchGrid.fillWithMatchGridEASY();
-            grid.resetBlankGrid();
-            grid.fillGrid();
+            grid.setWholeGridBlank();
         }
     }
     private void setTime(int n){
@@ -451,7 +461,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         this.score = tempScore;
     }
     private String checkWinLose(int score){
-        if(score >= 65){
+        if(score >= 50){
             return "!! You Pass!!";
         }else{
             return "!? You FAIL!!";

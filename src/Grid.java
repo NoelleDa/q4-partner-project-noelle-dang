@@ -79,12 +79,13 @@ public class Grid {
             }
         }
     }
-    public void resetBlankGrid(){
+    public void setWholeGridBlank(){
         for(int i = 0; i < gridRows; i++){
             for(int j = 0; j < gridCols; j++){
-                grid[i][j] = null;
+                grid[i][j].setColor("White");
             }
         }
+        System.out.println("Editable grid has been reset!");
     }
 
     public void fillWithMatchGridMedium(){
@@ -130,7 +131,7 @@ public class Grid {
     }
     //methods
     public void setPixelClicks(int row, int col, int n){
-        grid[row][col].setClicks(1);
+        grid[row][col].setClicks(n);
     }
     private void randomRound(int num){
         if(num == 0){
