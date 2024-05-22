@@ -88,6 +88,14 @@ public class Grid {
         System.out.println("Editable grid has been reset!");
     }
 
+    public void resetClicksOnGrid(){
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[i].length; j++){
+                grid[i][j].resetClicks();
+            }
+        }
+    }
+
     public void fillWithMatchGridMedium(){
         for(int i = 0; i < grid.length; i+=2){
             for(int j = 0; j <grid[i].length; j+=2){

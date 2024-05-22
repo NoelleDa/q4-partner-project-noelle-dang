@@ -68,7 +68,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 chooseDifficulty = true;
                 showLoadingScreen = false;
                 clickStart = 0;
-                setTime(12);
+                setTime(15);
                 matchScreen = true;
                 showTimerScreen = true;
             }
@@ -134,21 +134,23 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             g.drawString("Your Score is:" + this.score, 50,65);
             if(time == 0){
                 if(amountOfRounds > 0){
+                    System.out.println("Amount of Rounds Left: " + amountOfRounds);
                     nextRoundScreen = true;
                     startGame = false;
                     showScoreScreen = false;
                     setTime(15);
                     resetGrids();
                 } else{
-                    setScreen(g,"gameOver.png",0,0);
                     showScoreScreen = false;
+                    showTimerScreen = false;
+                    setScreen(g,"PixelMatchStartScreen.png",0,0);
+
                 }
 
             }
         }
         if(nextRoundScreen){
             setScreen(g,"NextRoundScreen.png",0,0);
-            amountOfRounds--;
         }
 
         if(startGame){
@@ -167,7 +169,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                     matchScreen = false;
                     blankScreen = true;
                     editGrid = true;
-                    setTime(20);
+                    setTime(180);
                 }
             }
             if(blankScreen){
@@ -177,7 +179,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                     showScoreScreen = true;
                     editGrid = false;
                     blankScreen = false;
-                    setTime(5);
+                    setTime(3);
                 }
             }
         }
@@ -191,16 +193,18 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     }
 
     private void resetGrids(){
-        System.out.println("Amount of Rounds: " + amountOfRounds);
         if(difficulty.equals("Hard")){
             matchGrid.fillWithMatchGridHARD();
             grid.setWholeGridBlank();
+            grid.resetClicksOnGrid();
         }else if(difficulty.equals("Medium")){
             matchGrid.fillWithMatchGridMedium();
             grid.setWholeGridBlank();
+            grid.resetClicksOnGrid();
         }else{
             matchGrid.fillWithMatchGridEASY();
             grid.setWholeGridBlank();
+            grid.resetClicksOnGrid();
         }
     }
     private void setTime(int n){
@@ -297,6 +301,8 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 startGame = true;
                 matchScreen = true;
                 this.score = 0;
+                amountOfRounds--;
+                System.out.println("Amount of rounds has decremented by 1; Amount of rounds left: " + this.amountOfRounds);
                 setTime(15);
             }
         }
