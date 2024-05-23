@@ -140,19 +140,15 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                     showScoreScreen = false;
                     setTime(15);
                     resetGrids();
-                } else{
-                    showScoreScreen = false;
-                    showTimerScreen = false;
-                    setScreen(g,"PixelMatchStartScreen.png",0,0);
-
                 }
-
+            }
+            if(amountOfRounds < 1){
+                setScreen(g,"gameOver.png",0,0);
             }
         }
         if(nextRoundScreen){
             setScreen(g,"NextRoundScreen.png",0,0);
         }
-
         if(startGame){
                 g.setColor(Color.WHITE);
                 g.setFont(new Font("IMPACT", Font.PLAIN, 25));
@@ -165,6 +161,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             if(matchScreen){
                 matchGrid.paint(g);
                 paintGridContents(g,matchGrid);
+                setScreen(g,"SubmitButton.png",0,0);
                 if(time == 0) {
                     matchScreen = false;
                     blankScreen = true;
@@ -175,6 +172,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             if(blankScreen){
                 grid.paint(g);
                 paintGridContents(g,grid);
+                setScreen(g,"SubmitButton.png",0,0);
                 if(time == 0){
                     showScoreScreen = true;
                     editGrid = false;
@@ -191,7 +189,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
        }
         clickFunctionUpdate(g);
     }
-
     private void resetGrids(){
         if(difficulty.equals("Hard")){
             matchGrid.fillWithMatchGridHARD();
@@ -410,6 +407,12 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                     }
                 }
             }
+
+           if(blankScreen || matchScreen){
+               if(e.getX() >= 380 && e.getX()  <= 420 && e.getY() >= 50 && e.getY() <= 90){
+                   this.time = 0;
+               }
+           }
     }
 
     @Override
