@@ -1,15 +1,11 @@
-
-
 import java.io.File;
 import java.net.URL;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 public class SoundEffect implements Runnable  {
     Thread t;
     File audioFile ;
@@ -21,7 +17,6 @@ public class SoundEffect implements Runnable  {
         fn = fileName;
         loopsSoundEffect = loops;
     }
-
     public void playOnThread() {
         Thread t = new Thread(this, "xyz");
         t.start();
@@ -48,11 +43,9 @@ public class SoundEffect implements Runnable  {
             e.printStackTrace();
         }
     }
-
     public void stopSound() {
         audioClip.stop();
     }
-
     @Override
     public void run() {
         playSound();

@@ -95,7 +95,6 @@ public class Grid {
             }
         }
     }
-
     public void fillWithMatchGridMedium(){
         for(int i = 0; i < grid.length; i+=2){
             for(int j = 0; j <grid[i].length; j+=2){
@@ -106,9 +105,7 @@ public class Grid {
                 grid[i+1][j+1] = temp;
             }
         }
-
     }
-
     public int getLength(){
         return grid.length;
     }
@@ -117,7 +114,6 @@ public class Grid {
     }
     public void paint(Graphics g){
         paintGridOutline(g);
-
     }
     //display time
     //drawing the lines for the grid
@@ -134,8 +130,6 @@ public class Grid {
                 yOffset+(squareSize)*getHeight());
         g.drawLine(xOffset, yOffset+(squareSize)*getHeight(),xOffset+(squareSize)*getLength(),
                 yOffset+(squareSize)*getHeight());
-
-
     }
     //methods
     public void setPixelClicks(int row, int col, int n){
@@ -172,5 +166,4 @@ public class Grid {
     public Pixel getValue(int row, int col){
         return grid[row][col];
     }
-
 } // end of class

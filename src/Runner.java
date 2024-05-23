@@ -49,6 +49,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     private boolean instructionsFour = false;
     private boolean startButtonScreen = false;
     private boolean nextRoundScreen = false;
+    private boolean startTimer = true;
     private int clickStart = 0;
     private int amountOfRounds = 3;
     private String difficulty;
@@ -141,9 +142,10 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                     setTime(15);
                     resetGrids();
                 }
-            }
-            if(amountOfRounds < 1){
-                setScreen(g,"gameOver.png",0,0);
+                if(amountOfRounds < 1){
+                    startTimer = false;
+                    setScreen(g,"gameOver.png",0,0);
+                }
             }
         }
         if(nextRoundScreen){
@@ -154,10 +156,12 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 g.setFont(new Font("IMPACT", Font.PLAIN, 25));
                 g.drawString("Difficulty:  " + this.difficulty, 50,775);
                 updatePointer();
-            timer += 20;
-            if(timer % 1000 == 0){
-                time--;
-            }
+                if(startTimer){
+                    timer += 20;
+                    if(timer % 1000 == 0){
+                        time--;
+                    }
+                }
             if(matchScreen){
                 matchGrid.paint(g);
                 paintGridContents(g,matchGrid);
@@ -369,7 +373,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
     }
-
     private void playSound(String fileName, boolean loop){
         SoundEffect temp = new SoundEffect(fileName,loop);
         temp.playOnThread();
@@ -377,7 +380,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-
         if(chooseDifficulty){
             if(e.getX() >= 50 && e.getX() <= 250 && e.getY() >= 450 && e.getY() <= 500){
                playSound("Click.wav",false);
@@ -433,7 +435,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                }
            }
     }
-
     @Override
     public void mouseReleased(MouseEvent e) {
     }
@@ -474,7 +475,6 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         g.fillRect(translateGridPosition(gridPosition,grid)[0]+58,
                 translateGridPosition(gridPosition,grid)[1]+43,6,20);
     }
-
     private void checkScoreResults(Grid originalGrid, Grid editedGrid){
 
         int tempScore = 0;

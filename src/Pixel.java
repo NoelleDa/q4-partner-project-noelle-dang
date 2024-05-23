@@ -14,7 +14,6 @@ public class Pixel {
     private int rX, rY;
     private int squareSize = 65;
     public Hashtable<String, String> colors;
-
     //constructors
     public Pixel(String color){
         colors = new Hashtable<String,String>();
@@ -28,14 +27,12 @@ public class Pixel {
         colors.put("Red","Colors//Red.png");
         colors.put("White","Colors//White.png");
         colors.put("Yellow","Colors//Yellow.png");
-
         if(colors.containsKey(color)){
             this.color = color;
         }else{
             this.color = "Invalid";
         }
     }
-
     protected Image getImage(String path){
         Image tempImage = null;
         try{
@@ -54,8 +51,6 @@ public class Pixel {
     public void resetClicks(){
         this.clicks = -1;
     }
-
-
     public void setClicks(int amount){
         this.clicks += amount;
         if(this.clicks == 1){
@@ -117,7 +112,6 @@ public class Pixel {
     public void setColor(String newColor){
         this.color = newColor;
     }
-
     public void paint (Graphics g, Grid grid, int x, int y){
         Graphics2D g2 = (Graphics2D) g;
         int[] passthrough = {1,x,y};
@@ -129,9 +123,4 @@ public class Pixel {
     public String toString(){
         return color;
     }
-
-
-
-
-
 }
