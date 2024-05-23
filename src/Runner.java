@@ -265,35 +265,42 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         if(showLoadingScreen){
             if(arg0.getKeyCode() == 10){
                 clickStart++;
+                playSound("Next.wav",false);
             }
         }
         if(HowToPlayScreen){
             if(arg0.getKeyCode() == 32){
                 clickStart++;
+                playSound("Next.wav",false);
             }
         }
         if(instructionsOne){
             if(arg0.getKeyCode() == 32){
                 clickStart++;
+                playSound("Next.wav",false);
             }
         }
         if(instructionsTwo){
             if(arg0.getKeyCode() == 32){
                 clickStart++;
+                playSound("Next.wav",false);
             }
         }
         if(instructionsThree){
             if(arg0.getKeyCode() == 32){
                 clickStart++;
+                playSound("Next.wav",false);
             }
         }
         if(instructionsFour){
             if(arg0.getKeyCode() == 32){
                 clickStart++;
+                playSound("Next.wav",false);
             }
         }
         if(nextRoundScreen){
             if(arg0.getKeyCode() == 32){
+                playSound("Submit.wav",false);
                 nextRoundScreen = false;
                 startGame = true;
                 matchScreen = true;
@@ -362,23 +369,32 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
     }
+
+    private void playSound(String fileName, boolean loop){
+        SoundEffect temp = new SoundEffect(fileName,loop);
+        temp.playOnThread();
+    }
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
+
         if(chooseDifficulty){
             if(e.getX() >= 50 && e.getX() <= 250 && e.getY() >= 450 && e.getY() <= 500){
+               playSound("Click.wav",false);
                 System.out.println("Easy Button has been clicked");
                 chooseDifficulty = false;
                 HowToPlayScreen = true;
                 difficulty = "Easy";
                 matchGrid.fillWithMatchGridEASY();
             }else if(e.getX() >= 300 && e.getX() <= 500 && e.getY() >= 450 && e.getY() <= 500 ){
+                playSound("Click.wav",false);
                 System.out.println("Medium Button has been clicked");
                 chooseDifficulty = false;
                 HowToPlayScreen = true;
                 difficulty = "Medium";
                 matchGrid.fillWithMatchGridMedium();
             }else if(e.getX() >= 550 && e.getX() <= 750 && e.getY() >= 450 && e.getY() <= 500){
+                playSound("Click.wav",false);
                 System.out.println("Hard Button has been clicked");
                 chooseDifficulty = false;
                 HowToPlayScreen = true;
@@ -391,6 +407,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 startGame = true;
                 System.out.println("Start Button has been clicked");
                 startButtonScreen = false;
+                playSound("Submit.wav",false);
             }
         }
             if(editGrid){
@@ -403,6 +420,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                         int pixelRY = temp.getrY();
                         if((e.getY() >= pixelY && e.getY() <= pixelRY) && (e.getX() >= pixelX && e.getX() <= pixelRX) ){
                                 grid.setPixelClicks(row,col,1);
+                            playSound("Click.wav",false);
                         }
                     }
                 }
@@ -411,6 +429,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
            if(blankScreen || matchScreen){
                if(e.getX() >= 380 && e.getX()  <= 420 && e.getY() >= 50 && e.getY() <= 90){
                    this.time = 0;
+                   playSound("Submit.wav",false);
                }
            }
     }
