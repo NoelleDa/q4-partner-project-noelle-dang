@@ -16,6 +16,7 @@ public class Pixel {
     public Hashtable<String, String> colors;
     //constructors
     public Pixel(String color){
+        //gives the pixel a color and connects it to the image in the colors package
         colors = new Hashtable<String,String>();
         colors.put("Black","Colors//Black.png");
         colors.put("Blue","Colors//Blue.png");
@@ -33,6 +34,7 @@ public class Pixel {
             this.color = "Invalid";
         }
     }
+    //retrieved image of the pixel
     protected Image getImage(String path){
         Image tempImage = null;
         try{
@@ -51,6 +53,7 @@ public class Pixel {
     public void resetClicks(){
         this.clicks = -1;
     }
+    //increments the clicks in order to change the color/image of the pixel
     public void setClicks(int amount){
         this.clicks += amount;
         if(this.clicks == 1){

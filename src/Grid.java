@@ -140,6 +140,7 @@ public class Grid {
             fillWithMatchGridHARD();
         }
     }
+    //generated a random color
     public String randomColor(int num){
         if(num == 0){
             return "Black";

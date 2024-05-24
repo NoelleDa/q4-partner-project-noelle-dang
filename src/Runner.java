@@ -50,6 +50,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
     private boolean startButtonScreen = false;
     private boolean nextRoundScreen = false;
     private boolean startTimer = true;
+    //amount of rounds of the game
     private int clickStart = 0;
     private int amountOfRounds = 3;
     private String difficulty;
@@ -58,6 +59,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         // TODO Auto-generated method stub
         Runner f = new Runner();
     }
+    //paints the background and grid onto the JFrame
     public void paint(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
@@ -74,11 +76,13 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 showTimerScreen = true;
             }
         }
+        //shows the timer onto the JFrame
         if(showTimerScreen){
             g.setFont(new Font("Impact",Font.PLAIN, 35 ));
             g.setColor(Color.WHITE);
             g.drawString("Time: " + displayMinutes(time) + ":" + displaySeconds(time),635,770 );
         }
+        //Instructions Screen
         if(HowToPlayScreen){
             setScreen(g,"How to Play.png",0,0);
             if(clickStart > 0){
@@ -119,9 +123,11 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 startButtonScreen = true;
             }
         }
+        //Start button to start the game
         if(startButtonScreen){
             setScreen(g,"Start Button.png",0,0);
         }
+        //shoes the score after each round
         if(showScoreScreen){
             checkScoreResults(matchGrid,grid);
             g.setColor(Color.WHITE);
@@ -151,6 +157,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         if(nextRoundScreen){
             setScreen(g,"NextRoundScreen.png",0,0);
         }
+        //starts the round all over again
         if(startGame){
                 g.setColor(Color.WHITE);
                 g.setFont(new Font("IMPACT", Font.PLAIN, 25));
@@ -162,6 +169,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                         time--;
                     }
                 }
+                //shows the user the grid that needs to be matched
             if(matchScreen){
                 matchGrid.paint(g);
                 paintGridContents(g,matchGrid);
@@ -173,6 +181,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                     setTime(180);
                 }
             }
+            //shows an editable grid that can be edited
             if(blankScreen){
                 grid.paint(g);
                 paintGridContents(g,grid);
@@ -185,6 +194,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
                 }
             }
         }
+        //selects the difficulty of the game
        if(chooseDifficulty){
            setScreen(g,"DifficultyScreen.png",0,0);
            setScreen(g,"EasyButton.png",-250,50);
@@ -193,6 +203,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
        }
         clickFunctionUpdate(g);
     }
+    //after each round, reset the editable grid into all white tiles, along with resetting their click to -1
     private void resetGrids(){
         if(difficulty.equals("Hard")){
             matchGrid.fillWithMatchGridHARD();
@@ -208,6 +219,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             grid.resetClicksOnGrid();
         }
     }
+    //changing the timer
     private void setTime(int n){
         this.time = n;
     }
@@ -217,6 +229,7 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
             activeAnimation = grid.animationOverride;
         }
     }
+    //paints the grid
     private void paintGridContents(Graphics g, Grid gridType) {
         for (int r = 0; r < gridType.getLength();r++) {
             for (int c = 0; c < gridType.getHeight(); c++) {
@@ -475,12 +488,11 @@ public class Runner extends JPanel implements KeyListener, ActionListener, Mouse
         g.fillRect(translateGridPosition(gridPosition,grid)[0]+58,
                 translateGridPosition(gridPosition,grid)[1]+43,6,20);
     }
+    //checks the score after each round
     private void checkScoreResults(Grid originalGrid, Grid editedGrid){
-
         int tempScore = 0;
         for(int i = 0; i < originalGrid.getHeight(); i++){
             for(int j = 0; j < originalGrid.getLength(); j++){
-
                 if(originalGrid.getValue(i,j).getColor().equals(editedGrid.getValue(i,j).getColor())){
                     tempScore ++;
                 }
